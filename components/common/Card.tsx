@@ -10,7 +10,7 @@ const Card = (props: any) => {
 
   return (
     <>
-      <div className="border-[1px] border-border/40 rounded-md w-full mx-auto md:max-w-none md:w-full hover:shadow-lg hover:shadow-dark/30 transition-all ease-in-out duration-300">
+      <div key={property.id} className="border-[1px] border-border/40 rounded-md w-full mx-auto md:max-w-none md:w-full hover:shadow-lg hover:shadow-dark/30 transition-all ease-in-out duration-300">
         <div className="w-full h-52 relative">
           <div className="absolute left-1 top-1 gap-x-2">
             <span className="border border-border/40 bg-white rounded-lg px-2 text-sm mx-1 font-medium">
