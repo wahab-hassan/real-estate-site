@@ -352,8 +352,9 @@ const PropertyList = () => {
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
                 <h4>OwnerShip Type</h4>
                 <div className="flex items-center flex-wrap my-3">
-                  {ownerShip.map((type: any) => (
+                  {ownerShip.map((type: any, index: number) => (
                     <span
+                    key={index}
                       className={`${
                         selectedOwnerShip.includes(type.name)
                           ? "bg-dark text-light hover:opacity-60"
@@ -428,9 +429,9 @@ const PropertyList = () => {
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
                 <h4>Property type</h4>
                 <ul className="w-full mt-5 space-y-3">
-                  {propertyTypes.map((type: any) => {
+                  {propertyTypes.map((type: any, index: any) => {
                     return (
-                      <li className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
+                      <li key={index} className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
                         <span className="flex items-center gap-x-2">
                           <span
                             className={`${
@@ -468,9 +469,9 @@ const PropertyList = () => {
               <div className="w-full border-b border-border/50 rounded-sm pb-6">
                 <h4>Location</h4>
                 <ul className="w-full mt-5 space-y-3">
-                  {southKoreanLocations.map((location: any) => {
+                  {southKoreanLocations.map((location: any,  index: any) => {
                     return (
-                      <li className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
+                      <li key={index} className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
                         <span className="flex items-center gap-x-2">
                           <span
                             className={`${
