@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
@@ -25,7 +26,7 @@ const Card = (props: any) => {
           </h5>
         </div>
         <div className="p-3 border-b border-border/40">
-          <h3 className="text-lg font-semibold ml-6 mb-2">{property.name}</h3>
+          <h3 className="text-lg font-semibold ml-6 mb-2 hover:text-third">{property.name}</h3>
           <h4 className="flex items-center gap-x-2">
             <HiLocationMarker className="text-lg" /> Canggu - Tumbak Bayuh
           </h4>
@@ -43,9 +44,9 @@ const Card = (props: any) => {
           </span>
         </div>
         <div className="border-t border-border/40 py-4">
-          <button className="flex items-center w-10/12 mx-auto gap-x-4 hover:text-third transition-all ease-in-out duration-300 font-medium">
+          <Link href={`/listing/${property.id}`} className="flex items-center w-10/12 mx-auto gap-x-4 hover:text-third transition-all ease-in-out duration-300 font-medium">
             Get Contact Info <BsArrowRight className="text-lg" />
-          </button>
+          </Link>
         </div>
       </div>
     </>

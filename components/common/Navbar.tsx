@@ -16,8 +16,10 @@ import {
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
   const [dropDown, setdropDown] = useState(false);
@@ -110,27 +112,34 @@ const Navbar = () => {
                 aria-labelledby="menu-button"
               >
                 <div className="py-1" role="none">
-                  <a
-                    href="#"
+                  <Link
+                    href="/auth/register"
                     className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
                     role="menuitem"
                     id="menu-item-0"
                   >
                     Register <BsChevronRight />
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    href="/auth/login"
                     className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
                     role="menuitem"
                     id="menu-item-0"
                   >
                     Login <BsChevronRight />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
 
-            <button className="btn btn-main py-3 flex items-center">
+            <button
+              className="btn btn-main py-3 flex items-center"
+              onClick={() => {
+                localStorage.getItem("sb-bttvroyktkjlseeiblwt-auth-token")
+                  ? router.push("/add-listing")
+                  : router.push("/auth/login");
+              }}
+            >
               <LiaHomeSolid className="inline text-xl mr-1" /> Add Listing
             </button>
           </div>

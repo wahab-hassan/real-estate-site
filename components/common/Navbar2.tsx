@@ -96,7 +96,7 @@ const Navbar2 = () => {
                 </Link>{" "}
                 /
                 <Link
-                  href={"/"}
+                  href={"/listing"}
                   className="flex items-center gap-x-2 text-dark font-medium text/md hover:underline hover:text-third transition-all ease-in-out duration-300"
                 >
                   Listing <BsChevronDown />
@@ -109,14 +109,14 @@ const Navbar2 = () => {
                   About Us <BsChevronDown />
                 </Link>
               </div>
-              <button className="relative flex items-center gap-x-4 w-36 group transition-all ease-in-out duration-300 mr-3 xl:mr-0">
+              <Link className="relative flex items-center gap-x-4 w-36 group transition-all ease-in-out duration-300 mr-3 xl:mr-0" href={"/add-listing"}>
                 <span className="flex items-center w-12 h-12 border border-dark group-hover:w-36 group-hover:text-third group-hover:border-third transition-all ease-in-out duration-300">
                   <BsArrowRight className="ml-4" />
                 </span>
                 <span className="absolute text-nowrap font-medium left-16 group-hover:left-10 group-hover:text-third transition-all ease-in-out duration-300">
                   Add Listing
                 </span>
-              </button>
+              </Link>
             </div>
             <button
               className="w-20 h-20 bg-dark flex items-center justify-center hover:bg-third transition-all ease-in-out duration-300"
@@ -208,8 +208,8 @@ const Navbar2 = () => {
             <div className="my-8 border-b-[1px] border-border/80">
               <h3>Account</h3>
               <div className="flex items-center gap-x-3 my-4">
-                <button className="btn btn-outline">Login</button>
-                <button className="btn btn-outline">Sign Up</button>
+                <Link href={'/auth/login'} className="btn btn-outline">Login</Link>
+                <Link href={'/auth/register'} className="btn btn-outline">Sign Up</Link>
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">
