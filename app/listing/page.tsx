@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { BsFillHouseFill, BsChevronRight } from "react-icons/bs";
 import PropertyList from "@/components/common/Listing/PropertyList";
-const page = () => {
+const Page = () => {
   return (
     <>
       <Navbar2 />
@@ -31,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

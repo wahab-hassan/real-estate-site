@@ -27,7 +27,7 @@ import ContactForm from "@/components/common/Listing-Detail/ContactForm";
 import { selectSpecificRecord } from "@/lib/crud";
 import Loader from "@/components/common/Loader";
 
-const page = ({ params }: { params: { id: string } }) => {
+const Page = ({ params }: { params: { id: string } }) => {
   const googleMapsLink = "https://maps.app.goo.gl/ugFEojN1yQR3q883A";
   const [property, setproperty]: any = useState();
   const [isLoading, setisLoading] = useState(true);
@@ -282,4 +282,4 @@ const page = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

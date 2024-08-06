@@ -70,7 +70,7 @@ const amenities = [
   { value: "part_of_the_complex", label: "Part of the complex" },
 ];
 
-const page = () => {
+const Page = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -1151,4 +1151,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
