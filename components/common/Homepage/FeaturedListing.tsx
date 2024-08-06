@@ -33,7 +33,7 @@ const FeaturedListing = () => {
   return (
     <div className="max-w-md mx-auto md:max-w-2xl lg:max-w-none lg:w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10">
       {records.map((value: any) => {
-        return <Card property={value} />;
+        return <Card key={value.id} property={value} />;
       })}
     </div>
   );

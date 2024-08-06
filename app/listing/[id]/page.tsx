@@ -28,17 +28,13 @@ import { selectSpecificRecord } from "@/lib/crud";
 import Loader from "@/components/common/Loader";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const googleMapsLink = "https://maps.app.goo.gl/ugFEojN1yQR3q883A";
   const [property, setproperty]: any = useState();
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
     setisLoading(true);
     fetchSpecificRecord().then((data: any) => {
-      console.log("====================================");
-      console.log(data);
       setproperty(data);
       setisLoading(false);
-      console.log("====================================");
     });
   }, [params.id]);
 

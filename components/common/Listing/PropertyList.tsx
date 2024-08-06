@@ -218,8 +218,8 @@ const PropertyList = () => {
               </div>
             ) : (
               <div className="max-w-md mx-auto md:max-w-2xl lg:max-w-none lg:w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 my-10">
-                {records.map((value: any) => {
-                  return <Card property={value} />;
+                {records.map((value: any, index:any) => {
+                  return <Card key={index} property={value} />;
                 })}
               </div>
             )}

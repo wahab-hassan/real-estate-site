@@ -110,7 +110,7 @@ const Footer2 = () => {
               <h3>Subscribe for Update</h3>
               <div className="mx-auto mt-8 max-w-md sm:ms-0">
                 <p className="text-left leading-relaxed  ltr:sm:text-left rtl:sm:text-right">
-                  Don't miss out! Subscribe now for early access and discounts.
+                  Don&apos;t miss out! Subscribe now for early access and discounts.
                 </p>
 
                 <form className="mt-4">

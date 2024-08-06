@@ -228,9 +228,9 @@ const SearchBar = () => {
           <div className="w-10/12 p-6 mx-auto rounded-md bg-white shadow-xl shadow-dark ring-1 ring-black ring-opacity-5 focus:outline-none py-4 md:w-96 md:mt-5">
             <h3>Locations</h3>
             <ul className="overflow-auto h-56 my-5 w-11/12 mx-auto">
-              {southKoreanLocations.map((location: any) => {
+              {southKoreanLocations.map((location: any, index: number) => {
                 return (
-                  <li className="my-3 text-sm flex items-center">
+                  <li key={index} className="my-3 text-sm flex items-center">
                     <span
                       className={`${
                         selectedLocation.includes(location.location)

@@ -56,7 +56,7 @@ const Page = () => {
               <div className="mb-12">
                 <h2 className=" font-extrabold">Login </h2>
                 <p className="text-sm mt-4 ">
-                  Don't have an account{" "}
+                  Don&apos;t have an account{" "}
                   <Link
                     href="/auth/register"
                     className="text-third font-semibold hover:underline ml-1 whitespace-nowrap"
