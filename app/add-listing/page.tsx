@@ -8,7 +8,6 @@ import { Select } from "@headlessui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { MdAdd, MdRemove } from "react-icons/md";
 import { storePropertyData, uploadImages } from "@/lib/crud";
-import { useRouter } from "next/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/common/Loader";
@@ -72,7 +71,6 @@ const amenities = [
 ];
 
 const page = () => {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -218,7 +216,6 @@ const page = () => {
             theme: "light",
             transition: Bounce,
           });
-          // router.push("/");
         });
       });
     } catch (error) {
