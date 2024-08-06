@@ -1,19 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CgMenuGridR, CgMenu } from "react-icons/cg";
-import {
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from "@headlessui/react";
 import { BiFilterAlt, BiMinus } from "react-icons/bi";
 
 import { Select } from "@headlessui/react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
-import { Checkbox } from "@/components/ui/checkbox";
 import { readPaginatedRecords } from "@/lib/crud";
 import Card from "../Card";
+import Loader from "../Loader";
 
 const PropertyList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -216,11 +209,21 @@ const PropertyList = () => {
                 </Select>
               </div>
             </div>
-            <div className="max-w-md mx-auto md:max-w-2xl lg:max-w-none lg:w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 my-10">
-              {records.map((value: any) => {
-                return <Card property={value} />;
-              })}
-            </div>
+
+            {loading ? (
+              <div className="relative w-full">
+                <div className="absolute inset-0 w-full h-96">
+                  <Loader />
+                </div>
+              </div>
+            ) : (
+              <div className="max-w-md mx-auto md:max-w-2xl lg:max-w-none lg:w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 my-10">
+                {records.map((value: any) => {
+                  return <Card property={value} />;
+                })}
+              </div>
+            )}
+
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <button
@@ -280,14 +283,19 @@ const PropertyList = () => {
           </div>
           <div
             className={`${
-              isOpen ? 'opacity-100  z-[1000]' : 'opacity-0 pointer-events-none -z-50'
-            } fixed inset-0 w-full h-screen  bg-dark/30 lg:bg-transparent lg:block lg:opacity-100 lg:static lg:pointer-events-auto lg:z-0 lg:h-auto lg:col-span-2 transition-all ease-in-out duration-300` }
+              isOpen
+                ? "opacity-100  z-[1000]"
+                : "opacity-0 pointer-events-none -z-50"
+            } fixed inset-0 w-full h-screen  bg-dark/30 lg:bg-transparent lg:block lg:opacity-100 lg:static lg:pointer-events-auto lg:z-0 lg:h-auto lg:col-span-2 transition-all ease-in-out duration-300`}
           >
             <div className="overflow-auto rounded-md h-4/6 mx-auto shadow-lg w-8/12 px-8 py-10 shadow-black/40 my-32 bg-white lg:w-full lg:h-full lg:bg-transparent lg:shadow-none lg:p-0 lg:my-0 lg:rounded-none">
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5 ">
                 <h3 className="font-bold">Filters</h3>
                 <div className="flex gap-x-2 mt-3">
-                  <button className="btn btn-outline px-2 font-semibold text-sm py-1 "  onClick={() => setIsOpen(!isOpen)}>
+                  <button
+                    className="btn btn-outline px-2 font-semibold text-sm py-1 "
+                    onClick={() => setIsOpen(!isOpen)}
+                  >
                     Clear All {">"}
                   </button>
                   <button className="btn btn-outline px-2 font-semibold text-sm py-1 ">
