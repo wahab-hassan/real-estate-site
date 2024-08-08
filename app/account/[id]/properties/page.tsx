@@ -8,12 +8,12 @@ const Page = () => {
   return (
     <>
       <div className="w-full h-screen flex items-center">
-        <div className="hidden h-screen lg:w-2/12 lg:block lg:col-span-3">
+        <div className="hidden h-full lg:w-2/12 lg:block lg:col-span-3">
           <Sidebar />
         </div>
-        <div className="w-full h-screen lg:w-10/12 lg:col-span-9 bg-[#f4f4f4]">
+        <div className="w-full h-full lg:w-10/12 lg:col-span-9 bg-[#f4f4f4]">
           <Topbar />
-          <div className="overflow-auto h-5/6">
+          <div className="overflow-auto h-full mt-20 p-10">
             <Listing/>
           </div>
         </div>

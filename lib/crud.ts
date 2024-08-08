@@ -158,3 +158,116 @@ export async function uploadImages(files: any[]) {
 
   return uploadedImages;
 }
+
+
+
+export async function getPropertiesByUser(condition:any, page = 1, limit = 10){
+  try {
+    // Calculate the starting index based on the page and limit
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    // Fetch properties created by the specified user with pagination
+    const propertiesData:any = await supabase
+      .from('property')
+      .select('*')
+      .eq(condition.key, condition.value)
+      .range(from, to);
+
+      console.log(propertiesData, JSON.parse(localStorage.getItem("userData")!).id);
+      
+    if (propertiesData.error) throw propertiesData.error;
+
+    // Fetch additional data for each property
+    const propertiesWithDetails = await Promise.all(propertiesData.data.map(async (property:any) => {
+      let additionalData = null;
+
+      if (property.list_type === 'sell') {
+        // Fetch associated sellable data
+        const { data: sellableData, error: sellableError } = await supabase
+          .from('sellable')
+          .select('*')
+          .eq('id', property.listType_id)
+          .single();
+
+        if (sellableError) throw sellableError;
+
+        additionalData = sellableData;
+      } else if (property.list_type === 'rent') {
+        // Fetch associated rental data
+        const { data: rentalData, error: rentalError } = await supabase
+          .from('rental')
+          .select('*')
+          .eq('id', property.listType_id)
+          .single();
+
+        if (rentalError) throw rentalError;
+
+        additionalData = rentalData;
+      }
+
+      return { ...property, additionalData };
+    }));
+
+    return propertiesWithDetails;
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    alert('Failed to fetch properties. Please try again.');
+    return [];
+  }
+};
+
+export async function getProperties(page = 1, limit = 10){
+  try {
+    // Calculate the starting index based on the page and limit
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    // Fetch properties created by the specified user with pagination
+    const propertiesData:any = await supabase
+      .from('property')
+      .select('*')
+      .range(from, to);
+
+      console.log(propertiesData, JSON.parse(localStorage.getItem("userData")!).id);
+      
+    if (propertiesData.error) throw propertiesData.error;
+
+    // Fetch additional data for each property
+    const propertiesWithDetails = await Promise.all(propertiesData.data.map(async (property:any) => {
+      let additionalData = null;
+
+      if (property.list_type === 'sell') {
+        // Fetch associated sellable data
+        const { data: sellableData, error: sellableError } = await supabase
+          .from('sellable')
+          .select('*')
+          .eq('id', property.listType_id)
+          .single();
+
+        if (sellableError) throw sellableError;
+
+        additionalData = sellableData;
+      } else if (property.list_type === 'rent') {
+        // Fetch associated rental data
+        const { data: rentalData, error: rentalError } = await supabase
+          .from('rental')
+          .select('*')
+          .eq('id', property.listType_id)
+          .single();
+
+        if (rentalError) throw rentalError;
+
+        additionalData = rentalData;
+      }
+
+      return { ...property, additionalData };
+    }));
+
+    return propertiesWithDetails;
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    alert('Failed to fetch properties. Please try again.');
+    return [];
+  }
+};

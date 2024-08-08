@@ -152,90 +152,95 @@ const Page = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setisLoading(true);
-    var data = {
-      name,
-      phone_number: phoneNumber,
-      email,
-      list_type: listType,
-      list_for: listFor,
-      property_type: propertyType,
-      property_name: propertyName,
-      land_size: Number(landSize),
-      building_size: Number(buildingSize),
-      bedrooms: Number(bedrooms),
-      bathrooms: Number(bathrooms),
-      living_room_type: livingRoomtype,
-      pool_type: poolType,
-      levels: Number(levels),
-      parking,
-      furnished,
-      features: selectedFeature,
-      location_pin: locationPin,
-      images_urls: imagesUrls,
-      property_description: propertyDescrption,
-      land_zoning: landZoning,
-      construction_status: constructionStatus,
-      uploaded_urls: uploadedUrls,
-      created_by: user?.user.id,
-    };
-    var sell = {
-      lease_hold_price: Number(leaseHoldPrice),
-      free_hold_price: Number(freeHoldPrice),
-      lease_expiry_date: leaseExpiryDate,
-      lease_hold_extension_term: leaseHoldExtensionTerm,
-      completion_handover_date: completionHandoverDate,
-      year_built: Number(yearBuilt),
-      no_of_unit_and_types: noOfUnitandTypes,
-    };
-    var rent = {
-      yearly_rental_price: Number(yearlyRentalPrice),
-      monthly_rental_price: Number(monthlyRentalPrice),
-      daily_rental_low: Number(dailyRentalLow),
-      daily_rental_high: Number(dailyRentalHigh),
-      daily_rental_peak: Number(dailyRentalPeak),
-      rental_note: rentalNote,
-      rental_package: rentalPackage,
-    };
-
-    try {
-      uploadImages(selectedFiles).then((urls) => {
-        setUploadedUrls(urls);
-
-        data.images_urls = urls;
-        console.log(urls);
-        console.log(data);
-        storePropertyData(data, rent, sell).then((response: any) => {
-          console.log("Property data stored successfully:", response);
-          setisLoading(false);
-          toast.success("Listing added successfully", {
-            position: "bottom-right",
-            autoClose: 7000,
-            delay: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
+    if (!isLoading) {
+      setisLoading(true);
+      var data = {
+        name,
+        phone_number: phoneNumber,
+        email,
+        list_type: listType,
+        list_for: listFor,
+        property_type: propertyType,
+        property_name: propertyName,
+        land_size: Number(landSize),
+        building_size: Number(buildingSize),
+        bedrooms: Number(bedrooms),
+        bathrooms: Number(bathrooms),
+        living_room_type: livingRoomtype,
+        pool_type: poolType,
+        levels: Number(levels),
+        parking,
+        furnished,
+        features: selectedFeature,
+        location_pin: locationPin,
+        images_urls: imagesUrls,
+        property_description: propertyDescrption,
+        land_zoning: landZoning,
+        construction_status: constructionStatus,
+        uploaded_urls: uploadedUrls,
+        created_by: user?.user.id,
+      };
+      var sell = {
+        lease_hold_price: Number(leaseHoldPrice),
+        free_hold_price: Number(freeHoldPrice),
+        lease_expiry_date: leaseExpiryDate,
+        lease_hold_extension_term: leaseHoldExtensionTerm,
+        completion_handover_date: completionHandoverDate,
+        year_built: Number(yearBuilt),
+        no_of_unit_and_types: noOfUnitandTypes,
+      };
+      var rent = {
+        yearly_rental_price: Number(yearlyRentalPrice),
+        monthly_rental_price: Number(monthlyRentalPrice),
+        daily_rental_low: Number(dailyRentalLow),
+        daily_rental_high: Number(dailyRentalHigh),
+        daily_rental_peak: Number(dailyRentalPeak),
+        rental_note: rentalNote,
+        rental_package: rentalPackage,
+      };
+  
+      try {
+        uploadImages(selectedFiles).then((urls) => {
+          setUploadedUrls(urls);
+  
+          data.images_urls = urls;
+          console.log(urls);
+          console.log(data);
+          storePropertyData(data, rent, sell).then((response: any) => {
+            console.log("Property data stored successfully:", response);
+            setisLoading(false);
+            setImagesUrls([]);
+            setUploadedUrls([]);
+            setPreviewUrls([]);
+            toast.success("Listing added successfully", {
+              position: "bottom-right",
+              autoClose: 7000,
+              delay: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
           });
         });
-      });
-    } catch (error) {
-      setisLoading(false);
-
-      toast.error("Failed to add listing.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      } catch (error) {
+        setisLoading(false);
+  
+        toast.error("Failed to add listing.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
     }
   };
 
@@ -253,9 +258,6 @@ const Page = () => {
         </div>
         <div className="w-full flex justify-center items-center my-8">
           <form
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
             className="w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 mx-auto border border-border/50 shadow-xl shadow-dark/10 rounded-md py-6 px-3 flex flex-col md:flex-row gap-3 flex-wrap"
           >
             <div className="mb-3 w-full md:w-5/12 mx-auto">
@@ -1113,7 +1115,9 @@ const Page = () => {
               <></>
             )}
             <div className="w-11/12 mx-auto my-3">
-              <button className="btn w-full py-3 btn-secondary">Submit</button>
+              <button className="btn w-full py-3 btn-secondary" onClick={(e) => {
+              handleSubmit(e);
+            }} >Submit</button>
             </div>
           </form>
         </div>

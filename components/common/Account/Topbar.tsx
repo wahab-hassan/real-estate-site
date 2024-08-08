@@ -18,7 +18,7 @@ const Topbar = () => {
     router.push("/auth/login");
   };
   return (
-    <div className="w-full bg-white border-b-[1px] border-border/40">
+    <div className="w-full fixed top-0 left-0 z-20 bg-white border-b-[1px] border-border/40">
       <div className="w-11/12 mx-auto flex justify-end items-center py-4">
         <div className="flex items-center gap-x-4 border-r border-border/30 pr-3 mr-3">
           <h5 className="font-semibold">{user?.email}</h5>

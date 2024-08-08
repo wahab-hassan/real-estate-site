@@ -18,7 +18,7 @@ const Sidebar = () => {
   return (
     <>
       <aside
-        className={`bg-white w-auto overflow-hidden border-r border-border/40 h-screen  transition-all ease-in-out duration-300`}
+        className={`bg-white fixed left-0 top-0 w-80  z-40 overflow-hidden border-r border-border/40 h-screen  transition-all ease-in-out duration-300`}
       >
         <div className="overflow-auto h-full">
           <div className="w-10/12 mx-auto py-4 ">

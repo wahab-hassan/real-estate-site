@@ -31,7 +31,7 @@ const Page = () => {
         theme: "light",
         transition: Bounce,
       });
-      router.push(`/account/${result.id}`); // Redirect to a protected route after login
+      router.push(`/`); // Redirect to a protected route after login
     } catch (error) {
       toast.error("Login failed.", {
         position: "bottom-right",

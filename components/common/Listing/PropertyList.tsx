@@ -4,7 +4,7 @@ import { BiFilterAlt, BiMinus } from "react-icons/bi";
 
 import { Select } from "@headlessui/react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
-import { readPaginatedRecords } from "@/lib/crud";
+import { getProperties, getTotalRecords, readPaginatedRecords } from "@/lib/crud";
 import Card from "../Card";
 import Loader from "../Loader";
 
@@ -20,18 +20,26 @@ const PropertyList = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchRecords(page, limit);
+   getCount();
   }, [page, limit]);
+
+  const getCount =async ()=>{
+    const count:any = await getTotalRecords('property');
+    console.log(count);
+    
+    setTotalRecords(count);
+  }
 
   const fetchRecords = async (page: any, limit: any) => {
     setLoading(true);
     try {
-      const { records, count }: any = await readPaginatedRecords(
-        "properties",
-        limit,
-        page
+      const data: any = await getProperties(
+        page,
+        limit
       );
-      setRecords(records);
-      setTotalRecords(count);
+      console.log(data);
+      
+      setRecords(data);
     } catch (error) {
       console.error("Error fetching records:", error);
     } finally {
