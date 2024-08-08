@@ -66,7 +66,7 @@ const Listing = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               <tr className="bg-white  border-b dark:border-gray-700">
                 <th
                   scope="row"
@@ -105,7 +105,7 @@ const Listing = () => {
                   </a>
                 </td>
               </tr>
-            </tbody>
+            </tbody> */}
           </table>
         </div>
       )}
