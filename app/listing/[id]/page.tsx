@@ -77,9 +77,10 @@ const Page = ({ params }: { params: { id: string } }) => {
             }}
           >
             <CarouselContent>
-              {property?.images_urls?.map((image: any) => {
+              {property?.images_urls?.map((image: any, index:any) => {
                 return (
                   <CarouselItem
+                  key={index}
                     className={` ${
                       property.images_urls.length > 3
                         ? "md:basis-1/2 lg:basis-1/3"
