@@ -14,11 +14,22 @@ import { CgMenuGridO } from "react-icons/cg";
 import { BsArrowRight, BsChevronRight, BsChevronDown } from "react-icons/bs";
 
 import { GrClose } from "react-icons/gr";
+import { signOut } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 const Navbar2 = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
+  const [user, setUser]:any = useState();
 
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userData")!));
+  }, []);
+  const logout = async () => {
+    await signOut();
+    router.push("/auth/login");
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -36,12 +47,16 @@ const Navbar2 = () => {
   });
   return (
     <>
-      <nav className={`${
-              header ? 'sticky top-0' : 'absolute top-0'
-            } w-full bg-white z-50 transition-all ease-in-out duration-300`}>
-        <div className={`${
-              header ? "hidden" : "block"
-            }  border-b border-border/40 transition-all ease-in-out duration-300`}>
+      <nav
+        className={`${
+          header ? "sticky top-0" : "absolute top-0"
+        } w-full bg-white z-50 transition-all ease-in-out duration-300`}
+      >
+        <div
+          className={`${
+            header ? "hidden" : "block"
+          }  border-b border-border/40 transition-all ease-in-out duration-300`}
+        >
           <div className="w-11/12 mx-auto flex flex-auto flex-shrink-0 flex-grow flex-wrap justify-center md:justify-between items-center py-3 gap-y-2">
             <div className="flex justify-center md:justify-start flex-auto flex-grow flex-wrap items-center gap-2">
               <a
@@ -109,7 +124,10 @@ const Navbar2 = () => {
                   About Us <BsChevronDown />
                 </Link>
               </div>
-              <Link className="relative flex items-center gap-x-4 w-36 group transition-all ease-in-out duration-300 mr-3 xl:mr-0" href={"/add-listing"}>
+              <Link
+                className="relative flex items-center gap-x-4 w-36 group transition-all ease-in-out duration-300 mr-3 xl:mr-0"
+                href={"/add-listing"}
+              >
                 <span className="flex items-center w-12 h-12 border border-dark group-hover:w-36 group-hover:text-third group-hover:border-third transition-all ease-in-out duration-300">
                   <BsArrowRight className="ml-4" />
                 </span>
@@ -208,8 +226,25 @@ const Navbar2 = () => {
             <div className="my-8 border-b-[1px] border-border/80">
               <h3>Account</h3>
               <div className="flex items-center gap-x-3 my-4">
-                <Link href={'/auth/login'} className="btn btn-outline">Login</Link>
-                <Link href={'/auth/register'} className="btn btn-outline">Sign Up</Link>
+                {user !== (null || undefined) ? (
+                  <>
+                    <Link href={`/account/${user?.id}`} className="btn btn-outline">
+                      Account
+                    </Link>
+                    <button className="btn btn-outline" onClick={() => logout()}>
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href={"/auth/login"} className="btn btn-outline">
+                      Login
+                    </Link>
+                    <Link href={"/auth/register"} className="btn btn-outline">
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">

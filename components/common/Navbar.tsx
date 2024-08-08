@@ -17,12 +17,18 @@ import {
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signOut } from "@/lib/auth";
 
 const Navbar = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
   const [dropDown, setdropDown] = useState(false);
+  const [user, setUser]: any = useState();
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userData")!));
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +45,11 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   });
+
+  const logout = async () => {
+    await signOut();
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -112,22 +123,45 @@ const Navbar = () => {
                 aria-labelledby="menu-button"
               >
                 <div className="py-1" role="none">
-                  <Link
-                    href="/auth/register"
-                    className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                    role="menuitem"
-                    id="menu-item-0"
-                  >
-                    Register <BsChevronRight />
-                  </Link>
-                  <Link
-                    href="/auth/login"
-                    className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                    role="menuitem"
-                    id="menu-item-0"
-                  >
-                    Login <BsChevronRight />
-                  </Link>
+                  {user !== (null || undefined) ? (
+                    <>
+                      <Link
+                        href={`/account/${user?.id}`}
+                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                        role="menuitem"
+                        id="menu-item-0"
+                      >
+                        Account <BsChevronRight />
+                      </Link>
+                      <button
+                        className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                        role="menuitem"
+                        id="menu-item-0"
+                        onClick={() => logout()}
+                      >
+                        Sign Out <BsChevronRight />
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/register"
+                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                        role="menuitem"
+                        id="menu-item-0"
+                      >
+                        Register <BsChevronRight />
+                      </Link>
+                      <Link
+                        href="/auth/login"
+                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                        role="menuitem"
+                        id="menu-item-0"
+                      >
+                        Login <BsChevronRight />
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -217,8 +251,31 @@ const Navbar = () => {
             <div className="my-8 border-b-[1px] border-border/80">
               <h3>Account</h3>
               <div className="flex items-center gap-x-3 my-4">
-                <button className="btn btn-outline">Login</button>
-                <button className="btn btn-outline">Sign Up</button>
+                {user ? (
+                  <>
+                    <Link
+                      href={`/account/${user?.id}`}
+                      className="btn btn-outline"
+                    >
+                      Account
+                    </Link>
+                    <button
+                      className="btn btn-outline"
+                      onClick={() => signOut()}
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href={"/auth/login"} className="btn btn-outline">
+                      Login
+                    </Link>
+                    <Link href={"/auth/register"} className="btn btn-outline">
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">

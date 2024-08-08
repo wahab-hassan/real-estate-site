@@ -265,7 +265,6 @@ const Page = () => {
               <input
                 type="text"
                 placeholder="Name*"
-                required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -283,7 +282,6 @@ const Page = () => {
               <PhoneInputWithCountrySelect
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 placeholder="Phone Number"
-                required
                 value={phoneNumber}
                 onChange={(e: any) => {
                   console.log(e);
@@ -303,7 +301,6 @@ const Page = () => {
               <input
                 type="email"
                 placeholder="Email*"
-                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -319,7 +316,6 @@ const Page = () => {
                 List Type*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={listType}
                 onChange={(e) => setListType(e.target.value)}
@@ -341,7 +337,6 @@ const Page = () => {
                 List for*
               </label>
               <select
-                required
                 value={listFor}
                 onChange={(e) => setListFor(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -377,7 +372,6 @@ const Page = () => {
               <input
                 type="text"
                 placeholder="Property Name*"
-                required
                 value={propertyName}
                 onChange={(e) => setPropertyName(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -395,7 +389,6 @@ const Page = () => {
                 Property Type*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={propertyType}
                 onChange={(e) => setPropertyType(e.target.value)}
@@ -424,7 +417,6 @@ const Page = () => {
               <input
                 type="number"
                 placeholder="Land Size, sqm"
-                required
                 value={landSize}
                 onChange={(e) => setLandSize(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -442,7 +434,6 @@ const Page = () => {
               <input
                 type="number"
                 placeholder="Building Size, sqm"
-                required
                 value={buildingSize}
                 onChange={(e) => setBuildingSize(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -462,7 +453,6 @@ const Page = () => {
               <input
                 type="number"
                 placeholder="Bedrooms*"
-                required
                 value={bedrooms}
                 onChange={(e) => setBedrooms(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -480,7 +470,6 @@ const Page = () => {
               <input
                 type="number"
                 placeholder="Bathrooms*"
-                required
                 value={bathrooms}
                 onChange={(e) => setBathrooms(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -496,7 +485,6 @@ const Page = () => {
                 Living Room Type*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={livingRoomtype}
                 onChange={(e) => setLivingRoomType(e.target.value)}
@@ -520,7 +508,6 @@ const Page = () => {
                 Pool Type*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={poolType}
                 onChange={(e) => setPoolType(e.target.value)}
@@ -543,7 +530,6 @@ const Page = () => {
                 Level*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={levels}
                 onChange={(e) => setlevels(e.target.value)}
@@ -567,7 +553,6 @@ const Page = () => {
                 Parking*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={parking}
                 onChange={(e) => setParking(e.target.value)}
@@ -595,7 +580,6 @@ const Page = () => {
                 Furnishing*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={furnished}
                 onChange={(e) => setFurnished(e.target.value)}
@@ -712,7 +696,6 @@ const Page = () => {
               <input
                 type="text"
                 placeholder="Location*"
-                required
                 value={locationPin}
                 onChange={(e) => setLocationPin(e.target.value)}
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -729,7 +712,6 @@ const Page = () => {
               </label>
               <textarea
                 placeholder="Property Description*"
-                required
                 value={propertyDescrption}
                 onChange={(e) => setPropertyDescription(e.target.value)}
                 className="bg-white border mt-1 border-border/30 h-32 rounded-md w-full p-2"
@@ -814,7 +796,6 @@ const Page = () => {
                 Land Zoning*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={landZoning}
                 onChange={(e) => setlandZoning(e.target.value)}
@@ -837,7 +818,6 @@ const Page = () => {
                 Construction Status*
               </label>
               <Select
-                required
                 className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                 value={constructionStatus}
                 onChange={(e) => setConstructionStatus(e.target.value)}
@@ -865,7 +845,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={yearlyRentalPrice}
                       onChange={(e) => setyearlyRentalPrice(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -884,7 +863,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={monthlyRentalPrice}
                       onChange={(e) => setmonthlyRentalPrice(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -903,7 +881,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={dailyRentalLow}
                       onChange={(e) => setdailyRentalLow(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -922,7 +899,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={dailyRentalHigh}
                       onChange={(e) => setdailyRentalHigh(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -941,7 +917,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={dailyRentalPeak}
                       onChange={(e) => setdailyRentalPeak(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -959,7 +934,6 @@ const Page = () => {
                       Select rental property management package
                     </label>
                     <Select
-                      required
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
                       value={rentalPackage}
                       onChange={(e) => setrentalPackage(e.target.value)}
@@ -986,7 +960,6 @@ const Page = () => {
                       Notes
                     </label>
                     <textarea
-                      required
                       value={rentalNote}
                       onChange={(e) => setrentalNote(e.target.value)}
                       className="bg-white border mt-1 border-border/30 h-32 rounded-md w-full p-2"
@@ -1010,7 +983,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={freeHoldPrice}
                       onChange={(e) => setfreeHoldPrice(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -1029,7 +1001,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={leaseHoldPrice}
                       onChange={(e) => setleaseHoldPrice(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -1048,7 +1019,6 @@ const Page = () => {
                     </label>
                     <input
                       type="date"
-                      required
                       value={leaseExpiryDate}
                       onChange={(e) => setleaseExpiryDate(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -1067,7 +1037,6 @@ const Page = () => {
                     </label>
                     <input
                       type="text"
-                      required
                       value={leaseHoldExtensionTerm}
                       onChange={(e) =>
                         setleaseHoldExtensionTerm(e.target.value)
@@ -1088,7 +1057,6 @@ const Page = () => {
                     </label>
                     <input
                       type="text"
-                      required
                       value={completionHandoverDate}
                       onChange={(e) =>
                         setcompletionHandoverDate(e.target.value)
@@ -1109,7 +1077,6 @@ const Page = () => {
                     </label>
                     <input
                       type="number"
-                      required
                       value={yearBuilt}
                       onChange={(e) => setyearBuilt(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"
@@ -1128,7 +1095,6 @@ const Page = () => {
                     </label>
                     <input
                       type="text"
-                      required
                       value={noOfUnitandTypes}
                       onChange={(e) => setnoOfUnitandTypes(e.target.value)}
                       className="bg-white border mt-1 border-border/30 rounded-md w-full p-2"

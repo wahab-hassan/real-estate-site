@@ -16,8 +16,9 @@ const Page = () => {
     event.preventDefault();
     setError("");
     try {
-      await signIn(email, password);
+      const result = await signIn(email, password);
       // Handle successful signup (e.g., redirect or show a success message)
+      console.log(result);
 
       toast.success("Login successful", {
         position: "bottom-right",
@@ -30,7 +31,7 @@ const Page = () => {
         theme: "light",
         transition: Bounce,
       });
-      router.push("/"); // Redirect to a protected route after login
+      router.push(`/account/${result.id}`); // Redirect to a protected route after login
     } catch (error) {
       toast.error("Login failed.", {
         position: "bottom-right",
@@ -48,7 +49,6 @@ const Page = () => {
 
   return (
     <>
-    
       <div className="min-h-screen flex flex-col items-center justify-center">
         <div className="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
           <div className="md:max-w-md w-full px-4 py-4">
@@ -97,7 +97,11 @@ const Page = () => {
               </div>
 
               <div className="mt-12">
-                <button type="button" onClick={handleLogin} className="btn btn-secondary w-full">
+                <button
+                  type="button"
+                  onClick={handleLogin}
+                  className="btn btn-secondary w-full"
+                >
                   Sign in
                 </button>
               </div>

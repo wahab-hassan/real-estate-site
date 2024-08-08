@@ -8,9 +8,26 @@ export async function createRecord(table: any, data: any) {
   if (error) throw error;
   return createdRecord;
 }
+export async function readRecords(
+  table:any,
+  condition:any = {},
+  limit = 10,
+  page = 1
+) {
+  const offset = (page - 1) * limit;
 
-export async function readRecords(table: any) {
-  const { data: records, error } = await supabase.from(table).select("*");
+  let query = supabase.from(table).select('*');
+
+  // Apply conditions
+  Object.keys(condition).forEach(key => {
+    query = query.eq(key, condition[key]);
+  });
+
+  // Apply pagination
+  query = query.range(offset, offset + limit - 1);
+
+  // Execute the query
+  const { data: records, error } = await query;
 
   if (error) throw error;
   return records;
@@ -74,10 +91,14 @@ export async function selectSpecificRecord(table: any, conditions: any) {
   return record;
 }
 
-export const storePropertyData = async (property: any, rent:any, sell:any) => {
+export const storePropertyData = async (
+  property: any,
+  rent: any,
+  sell: any
+) => {
   try {
     console.log(property, rent, sell);
-    
+
     let rentalId = null;
     let sellableId = null;
 
@@ -91,8 +112,8 @@ export const storePropertyData = async (property: any, rent:any, sell:any) => {
       if (sellableError) throw sellableError;
 
       sellableId = sellableData[0].id;
-    } 
-     if (property.list_type === "rent") {
+    }
+    if (property.list_type === "rent") {
       // Insert data into the rental table
       const { data: rentalData, error: rentalError } = await supabase
         .from("rental")
@@ -114,7 +135,7 @@ export const storePropertyData = async (property: any, rent:any, sell:any) => {
       .select();
 
     if (propertyError) throw propertyError;
-    return { data: propertyData};
+    return { data: propertyData };
   } catch (error) {
     console.error("Error listing property:", error);
   }
@@ -130,9 +151,8 @@ export async function uploadImages(files: any[]) {
 
     if (error) throw error;
 
-    const publicUrl: any = supabase.storage
-      .from("abnb")
-      .getPublicUrl(data.path).data.publicUrl;
+    const publicUrl: any = supabase.storage.from("abnb").getPublicUrl(data.path)
+      .data.publicUrl;
     uploadedImages.push(publicUrl);
   }
 
