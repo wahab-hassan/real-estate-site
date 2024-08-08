@@ -1,5 +1,9 @@
 "use client";
-import { readPaginatedRecords } from "@/lib/crud";
+import {
+  getProperties,
+  getTotalRecords,
+  readPaginatedRecords,
+} from "@/lib/crud";
 import React, { useEffect, useState } from "react";
 import Card from "../Card";
 
@@ -7,22 +11,24 @@ const FeaturedListing = () => {
   const [records, setRecords] = useState([]);
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [limit, setLimit] = useState(8); 
+  const [limit, setLimit] = useState(8);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchRecords(page, limit);
+    getCount();
   }, [page, limit]);
 
+  const getCount = async () => {
+    const count: any = await getTotalRecords("property");
+    console.log(count);
+
+    setTotalRecords(count);
+  };
   const fetchRecords = async (page: any, limit: any) => {
     setLoading(true);
     try {
-      const { records, count }: any = await readPaginatedRecords(
-        "properties",
-        limit,
-        page
-      );
-      setRecords(records);
-      setTotalRecords(count);
+      const data: any = await getProperties(page, limit);
+      setRecords(data);
     } catch (error) {
       console.error("Error fetching records:", error);
     } finally {
