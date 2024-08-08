@@ -229,7 +229,6 @@ export async function getProperties(page = 1, limit = 10){
       .select('*')
       .range(from, to);
 
-      console.log(propertiesData, JSON.parse(localStorage.getItem("userData")!).id);
       
     if (propertiesData.error) throw propertiesData.error;
 
