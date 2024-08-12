@@ -27,7 +27,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
   const [dropDown, setdropDown] = useState(false);
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState<boolean>();
   const [user, setUser]: any = useState();
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-4 mr-4">
             <div className="relative inline-block text-left">
-              {isLoggedIn ? (
+              {!isLoggedIn ? (
                 <KakaoLogin
                   token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
                   onSuccess={(obj: any) => {
@@ -276,7 +276,7 @@ const Navbar = () => {
             <div className="my-8 border-b-[1px] border-border/80">
               <h3>Account</h3>
               <div className="flex items-center gap-x-3 my-4">
-                {user ? (
+                {isLoggedIn ? (
                   <>
                     <Link
                       href={`/account/${user?.id}`}
@@ -289,6 +289,7 @@ const Navbar = () => {
                       onClick={() => {
                         handleKakaoLogout();
                         setisLoggedIn(false);
+                        localStorage.setItem("isLoggedIn", "false");
                       }}
                     >
                       Sign Out
