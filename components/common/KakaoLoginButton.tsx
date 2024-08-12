@@ -10,22 +10,6 @@ const KakaoLoginButton = () => {
     }
   }, []);
 
-  const userObj = JSON.parse(localStorage.getItem("userData")!);
-
-  //   const handleKakaoLogin = () => {
-  //     window.Kakao.Auth.login({
-  //       success: (authObj: any) => {
-  //         console.log("Kakao login successful", authObj);
-  //         localStorage.setItem("userObj", JSON.stringify(authObj));
-  //         // Handle the login logic, such as sending authObj to your backend
-  //       },
-  //       fail: (err: any) => {
-  //         console.error("Kakao login failed", err);
-  //       },
-  //     });
-  //   };
-
-
   return (
 <></>
   );
