@@ -1,7 +1,7 @@
 "use client";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { GrClose } from "react-icons/gr";
-import { BsChevronRight } from "react-icons/bs";
+import { BsChat, BsChevronRight, BsPerson } from "react-icons/bs";
 import {
   LiaMapMarkerAltSolid,
   LiaEnvelope,
@@ -17,17 +17,22 @@ import {
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut } from "@/lib/auth";
+import { handleKakaoLogout, signIn, signOut } from "@/lib/auth";
+import KakaoLogin from "react-kakao-login";
+import KakaoLoginButton from "./KakaoLoginButton";
+import { BiExit } from "react-icons/bi";
 
 const Navbar = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
   const [dropDown, setdropDown] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   const [user, setUser]: any = useState();
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userData")!));
+    setisLoggedIn(JSON.parse(localStorage.getItem("isLoggedIn")!));
   }, []);
 
   useEffect(() => {
@@ -105,65 +110,85 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-4 mr-4">
             <div className="relative inline-block text-left">
-              <button
-                type="button"
-                className="btn btn-secondary py-3 flex items-center"
-                onClick={() => setdropDown(!dropDown)}
-              >
-                <LiaUserSolid className="inline text-xl mr-1" /> Account
-              </button>
-              <div
-                className={`${
-                  dropDown
-                    ? "transform opacity-100 scale-100"
-                    : "transform opacity-0 scale-95"
-                } transition ease-out duration-100 absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="menu-button"
-              >
-                <div className="py-1" role="none">
-                  {user !== (null || undefined) ? (
-                    <>
+              {isLoggedIn ? (
+                <KakaoLogin
+                  token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
+                  onSuccess={(obj: any) => {
+                    signIn(
+                      String(obj?.profile?.id),
+                      obj?.profile?.kakao_account?.profile?.nickname
+                    );
+                    router.push("/listing");
+                    setisLoggedIn(true);
+                  }}
+                  onFail={console.error}
+                  onLogout={console.info}
+                >
+                  <div className="flex items-center justify-center text-center w-full font-medium">
+                    {" "}
+                    <BsChat className="text-lg mr-2" /> Login Using KakaoTalk
+                  </div>
+                </KakaoLogin>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-secondary py-3 flex items-center"
+                    onClick={() => setdropDown(!dropDown)}
+                  >
+                    <LiaUserSolid className="inline text-xl mr-1" /> Account
+                  </button>
+                  <div
+                    className={`${
+                      dropDown
+                        ? "transform opacity-100 scale-100"
+                        : "transform opacity-0 scale-95"
+                    } transition ease-out duration-100 absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="menu-button"
+                  >
+                    <div className="py-1" role="none">
                       <Link
                         href={`/account/${user?.id}`}
                         className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
                         role="menuitem"
                         id="menu-item-0"
                       >
-                        Account <BsChevronRight />
+                        <span className="flex items-center">
+                          {" "}
+                          <BsPerson className="mr-2" /> Account{" "}
+                        </span>{" "}
+                        <BsChevronRight />
                       </Link>
-                      <button
+                      {/* <button
                         className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
                         role="menuitem"
                         id="menu-item-0"
                         onClick={() => logout()}
                       >
                         Sign Out <BsChevronRight />
+                      </button> */}
+                      <KakaoLoginButton />
+                      <button
+                        onClick={() => {
+                          handleKakaoLogout();
+                          setisLoggedIn(false);
+                          localStorage.setItem("isLoggedIn", "false");
+                        }}
+                        type="button"
+                        className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                      >
+                        <span className="flex items-center">
+                          {" "}
+                          <BiExit className="text-lg mr-2" /> Logout{" "}
+                        </span>{" "}
+                        <BsChevronRight className="" />
                       </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/auth/register"
-                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                        role="menuitem"
-                        id="menu-item-0"
-                      >
-                        Register <BsChevronRight />
-                      </Link>
-                      <Link
-                        href="/auth/login"
-                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                        role="menuitem"
-                        id="menu-item-0"
-                      >
-                        Login <BsChevronRight />
-                      </Link>
-                    </>
-                  )}
-                </div>
-              </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <button
@@ -171,7 +196,7 @@ const Navbar = () => {
               onClick={() => {
                 localStorage.getItem("sb-bttvroyktkjlseeiblwt-auth-token")
                   ? router.push("/add-listing")
-                  : router.push("/auth/login");
+                  : alert("Please Login to add listing");
               }}
             >
               <LiaHomeSolid className="inline text-xl mr-1" /> Add Listing
@@ -261,19 +286,35 @@ const Navbar = () => {
                     </Link>
                     <button
                       className="btn btn-outline"
-                      onClick={() => signOut()}
+                      onClick={() => {
+                        handleKakaoLogout();
+                        setisLoggedIn(false);
+                      }}
                     >
                       Sign Out
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link href={"/auth/login"} className="btn btn-outline">
-                      Login
-                    </Link>
-                    <Link href={"/auth/register"} className="btn btn-outline">
-                      Sign Up
-                    </Link>
+                    <KakaoLogin
+                      token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
+                      onSuccess={(obj: any) => {
+                        signIn(
+                          String(obj?.profile?.id),
+                          obj?.profile?.kakao_account?.profile?.nickname
+                        );
+                        router.push("/listing");
+                        setisLoggedIn(true);
+                      }}
+                      onFail={console.error}
+                      onLogout={console.info}
+                    >
+                      <div className="flex items-center justify-center text-center w-full font-medium">
+                        {" "}
+                        <BsChat className="text-lg mr-2" /> Login Using
+                        KakaoTalk
+                      </div>
+                    </KakaoLogin>
                   </>
                 )}
               </div>

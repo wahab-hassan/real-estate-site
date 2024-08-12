@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
-import CustomCursor from "@/components/common/CustomCursor";
+import KakaoInit from "@/components/common/KakaoInit";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -43,8 +41,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+      <KakaoInit />
+      </head>
       <body className={`${poppins.variable} relative`}>
-        <CustomCursor />
+        {/* <CustomCursor /> */}
         {children}
       </body>
     </html>

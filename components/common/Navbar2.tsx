@@ -11,21 +11,37 @@ import {
   LiaTwitter,
 } from "react-icons/lia";
 import { CgMenuGridO } from "react-icons/cg";
-import { BsArrowRight, BsChevronRight, BsChevronDown } from "react-icons/bs";
+import {
+  BsArrowRight,
+  BsChevronRight,
+  BsChevronDown,
+  BsChat,
+} from "react-icons/bs";
+import KakaoLogin from "react-kakao-login";
 
 import { GrClose } from "react-icons/gr";
-import { signOut } from "@/lib/auth";
+import { handleKakaoLogout, signIn, signOut } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import KakaoInit from "./KakaoInit";
 
 const Navbar2 = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
-  const [user, setUser]:any = useState();
+  const [isLoggedIn, setisLoggedIn] = useState<boolean>();
+  const [user, setUser]: any = useState();
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("userData")!));
+    setisLoggedIn(JSON.parse(localStorage.getItem("isLoggedIn")!));
+    console.log(isLoggedIn);
   }, []);
+  // useEffect(() => {
+  //   setUser(JSON.parse(localStorage.getItem("userData")!));
+  //   setisLoggedIn(JSON.parse(localStorage.getItem("isLoggedIn")!));
+  //   console.log(isLoggedIn);
+    
+  // }, [isLoggedIn]);
   const logout = async () => {
     await signOut();
     router.push("/auth/login");
@@ -47,6 +63,8 @@ const Navbar2 = () => {
   });
   return (
     <>
+      {/* <KakaoInit /> */}
+
       <nav
         className={`${
           header ? "sticky top-0" : "absolute top-0"
@@ -59,8 +77,8 @@ const Navbar2 = () => {
         >
           <div className="w-11/12 mx-auto flex flex-auto flex-shrink-0 flex-grow flex-wrap justify-center md:justify-between items-center py-3 gap-y-2">
             <div className="flex justify-center md:justify-start flex-auto flex-grow flex-wrap items-center gap-2">
-              <a
-                href="#"
+              <span
+                
                 className="flex items-center flex-nowrap text-sm md:text-[16px] mr-5 transition-all ease-in-out"
               >
                 <LiaPhoneSolid className="text-xl mr-2" />{" "}
@@ -68,9 +86,8 @@ const Navbar2 = () => {
                   {" "}
                   +415-864-8728-99{" "}
                 </span>
-              </a>
-              <a
-                href="#"
+              </span>
+              <span
                 className="flex items-center flex-nowrap text-sm md:text-[16px] mr-5 transition-all ease-in-out"
               >
                 <LiaEnvelope className="text-xl mr-2" />{" "}
@@ -78,7 +95,7 @@ const Navbar2 = () => {
                   {" "}
                   support@abnb.com{" "}
                 </span>
-              </a>
+              </span>
             </div>
             <div className="flex items-center justify-center gap-x-2">
               <button className="btn-outline rounded-md w-7 h-7 flex items-center justify-center transition-all ease-in-out duration-300">
@@ -131,9 +148,12 @@ const Navbar2 = () => {
                 <span className="flex items-center w-12 h-12 border border-dark group-hover:w-36 group-hover:text-third group-hover:border-third transition-all ease-in-out duration-300">
                   <BsArrowRight className="ml-4" />
                 </span>
-                <span className="absolute text-nowrap font-medium left-16 group-hover:left-10 group-hover:text-third transition-all ease-in-out duration-300">
+                <Link
+                  href={isLoggedIn ? "/add-listing" : "/"}
+                  className="absolute text-nowrap font-medium left-16 group-hover:left-10 group-hover:text-third transition-all ease-in-out duration-300"
+                >
                   Add Listing
-                </span>
+                </Link>
               </Link>
             </div>
             <button
@@ -226,23 +246,47 @@ const Navbar2 = () => {
             <div className="my-8 border-b-[1px] border-border/80">
               <h3>Account</h3>
               <div className="flex items-center gap-x-3 my-4">
-                {user !== (null || undefined) ? (
+                {isLoggedIn ? (
                   <>
-                    <Link href={`/account/${user?.id}`} className="btn btn-outline">
+                    <Link
+                      href={`/account/${user?.id}`}
+                      className="btn btn-outline"
+                    >
                       Account
                     </Link>
-                    <button className="btn btn-outline" onClick={() => logout()}>
+                    <button
+                      className="btn btn-outline"
+                      onClick={() => {
+                        handleKakaoLogout();
+                        setisLoggedIn(false);
+                        localStorage.setItem("isLoggedIn", "false");
+                      }}
+                    >
                       Sign Out
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link href={"/auth/login"} className="btn btn-outline">
-                      Login
-                    </Link>
-                    <Link href={"/auth/register"} className="btn btn-outline">
-                      Sign Up
-                    </Link>
+                    <KakaoLogin
+                      token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
+                      onSuccess={(obj: any) => {
+                        signIn(
+                          String(obj?.profile?.id),
+                          obj?.profile?.kakao_account?.profile?.nickname
+                        );
+                        router.push("/listing");
+                        setisLoggedIn(true);
+
+                      }}
+                      onFail={console.error}
+                      onLogout={console.info}
+                    >
+                      <div className="flex items-center justify-center text-center w-full font-medium">
+                        {" "}
+                        <BsChat className="text-lg mr-2" /> Login Using
+                        KakaoTalk
+                      </div>
+                    </KakaoLogin>
                   </>
                 )}
               </div>

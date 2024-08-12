@@ -26,25 +26,50 @@ export async function signUp(
   return data;
 }
 
-export async function signIn(email: string, password: string) {
-  const result: any = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  if (result.error) throw result.error;
+export async function signIn(userId: any, userName: any) {
+  console.log(userId, userName);
 
-  const userId = result.data.user.id;
-  const data = await supabase
+  // Check if user with the given ID exists
+  const data: any = await supabase
     .from("users")
     .select("*")
     .eq("id", userId)
     .single();
 
-  if (data.error) throw data.error;
+  if (data.error) {
+    // Error code for no rows found
+    throw data.error;
+  }
 
-  localStorage.setItem("userData", JSON.stringify(data.data));
+  console.log(data);
 
-  return data.data;
+  if (!data.data) {
+    // User does not exist, insert the new user
+    const { data: newUser, error: insertError } = await supabase
+      .from("users")
+      .insert([
+        {
+          id: userId,
+          role: "buyer",
+          name: userName,
+        },
+      ])
+      .single();
+
+    if (insertError) throw insertError;
+
+    // Store the newly created user data in localStorage
+    localStorage.setItem("userData", JSON.stringify(newUser));
+    localStorage.setItem("isLoggedIn", "true");
+
+    return newUser;
+  } else {
+    // User exists, store their data in localStorage
+    localStorage.setItem("userData", JSON.stringify(data.data));
+    localStorage.setItem("isLoggedIn", "true");
+
+    return data.data;
+  }
 }
 
 export async function signOut() {
@@ -52,7 +77,15 @@ export async function signOut() {
 
   if (error) throw error;
   localStorage.removeItem("userData");
-  localStorage.removeItem("sb-bttvroyktkjlseeiblwt-auth-token");
 
   return true;
 }
+
+
+export function  handleKakaoLogout(){
+  window.Kakao.Auth.logout((err: any) => {
+    console.log(err);
+    localStorage.removeItem("userData");
+    localStorage.setItem("isLoggedIn", "false");
+  });
+};
