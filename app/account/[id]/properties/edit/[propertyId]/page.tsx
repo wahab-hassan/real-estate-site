@@ -19,7 +19,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import Topbar from "@/components/common/Account/Topbar";
 import Sidebar from "@/components/common/Account/Sidebar";
 
-const page = () => {
+const Page = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -1237,4 +1237,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
