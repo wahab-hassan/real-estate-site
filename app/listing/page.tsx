@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { BsFillHouseFill, BsChevronRight } from "react-icons/bs";
 import PropertyList from "@/components/common/Listing/PropertyList";
+import { ToastContainer } from "react-toastify";
 const Page = () => {
   return (
     <>
@@ -26,6 +27,7 @@ const Page = () => {
       </main>
 
       <PropertyList />
+      <ToastContainer/>
       <Footer2 />
     </>
   );

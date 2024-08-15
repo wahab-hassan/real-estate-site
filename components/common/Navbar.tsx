@@ -150,7 +150,7 @@ const Navbar = () => {
                   >
                     <div className="py-1" role="none">
                       <Link
-                        href={`/account/${user?.id}`}
+                        href={`/account/${user?.id}/properties`}
                         className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
                         role="menuitem"
                         id="menu-item-0"
@@ -279,7 +279,7 @@ const Navbar = () => {
                 {isLoggedIn ? (
                   <>
                     <Link
-                      href={`/account/${user?.id}`}
+                      href={`/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
                       Account

@@ -249,7 +249,7 @@ const Navbar2 = () => {
                 {isLoggedIn ? (
                   <>
                     <Link
-                      href={`/account/${user?.id}`}
+                      href={`/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
                       Account

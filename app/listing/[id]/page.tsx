@@ -29,13 +29,18 @@ import Loader from "@/components/common/Loader";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [property, setproperty]: any = useState();
+  const [images_url, setImages_url]: any = useState([]);
   const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
     setisLoading(true);
     fetchSpecificRecord().then((data: any) => {
       setproperty(data[0]);
       console.log(data);
-
+      if (data[0].images_urls && data[0].images_urls.length > data[0].uploaded_urls.length) {
+        setImages_url(data[0].images_urls);
+      } else if (data[0].uploaded_urls && data[0].images_urls.length < data[0].uploaded_urls.length) {
+        setImages_url(data[0].uploaded_urls);
+      }
       setisLoading(false);
     });
   }, [params.id]);
@@ -77,7 +82,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             }}
           >
             <CarouselContent>
-              {property?.images_urls?.map((image: any, index:any) => {
+              {images_url?.map((image: any, index:any) => {
                 return (
                   <CarouselItem
                   key={index}

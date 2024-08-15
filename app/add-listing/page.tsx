@@ -11,68 +11,7 @@ import { storePropertyData, uploadImages } from "@/lib/crud";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/common/Loader";
-
-const amenities = [
-  { id: 1, value: "air_conditioning", label: "Air Conditioning" },
-  { id: 2, value: "airport_pickups", label: "Airport pick-up" },
-  { id: 3, value: "baby_crib", label: "Baby crib" },
-  { id: 4, value: "baby_stroller", label: "Baby stroller" },
-  { id: 5, value: "bathtub", label: "Bathtub" },
-  { id: 6, value: "bbq_grill", label: "BBQ Grill" },
-  { id: 7, value: "beachfront", label: "Beachfront" },
-  { id: 8, value: "bed_linens_towels", label: "Bed linens, towels" },
-  { id: 9, value: "blender", label: "Blender" },
-  { id: 10, value: "breakfast", label: "Breakfast" },
-  { id: 11, value: "breakfast_free", label: "Breakfast (free)" },
-  { id: 12, value: "car_parking", label: "Car Parking" },
-  { id: 13, value: "coffee_maker", label: "Coffee Maker" },
-  { id: 14, value: "cooking_basics", label: "Cooking basics" },
-  { id: 15, value: "dining_table", label: "Dining table" },
-  { id: 16, value: "dishes_silverware", label: "Dishes and silverware" },
-  { id: 17, value: "extra_bed", label: "Extra bed" },
-  { id: 18, value: "fire_extinguisher", label: "Fire extinguisher" },
-  { id: 19, value: "first_aid_kit", label: "First aid kit" },
-  { id: 20, value: "garden_backyard", label: "Garden/Backyard" },
-  { id: 21, value: "hair_dryer", label: "Hair dryer" },
-  { id: 22, value: "hangers", label: "Hangers" },
-  { id: 23, value: "high_chair", label: "High chair" },
-  { id: 24, value: "hot_water", label: "Hot Water" },
-  { id: 25, value: "iron", label: "Iron" },
-  { id: 26, value: "laundry_service", label: "Laundry service" },
-  { id: 27, value: "microwave", label: "Microwave" },
-  { id: 28, value: "mosquito_net", label: "Mosquito net" },
-  { id: 29, value: "ocean_view", label: "Ocean View" },
-  { id: 30, value: "outdoor_bbq", label: "Outdoor BBQ" },
-  { id: 31, value: "outdoor_furniture", label: "Outdoor furniture" },
-  { id: 32, value: "outdoor_shower", label: "Outdoor Shower" },
-  { id: 33, value: "oven", label: "Oven" },
-  {
-    id: 34,
-    value: "patio_balcony_private",
-    label: "Patio or Balcony (Private)",
-  },
-  { id: 35, value: "patio_balcony_shared", label: "Patio or Balcony (Shared)" },
-  { id: 36, value: "pool_gate", label: "Pool gate" },
-  { id: 37, value: "private_chef", label: "Private chef" },
-  { id: 38, value: "private_driver", label: "Private driver" },
-  { id: 39, value: "private_kitchen", label: "Private kitchen" },
-  { id: 40, value: "reception", label: "Reception" },
-  { id: 41, value: "refrigerator", label: "Refrigerator" },
-  { id: 42, value: "safe_box", label: "Safe Box" },
-  { id: 43, value: "saltwater_pool", label: "Saltwater Pool" },
-  { id: 44, value: "security", label: "Security" },
-  { id: 45, value: "shampoo", label: "Shampoo" },
-  { id: 46, value: "shared_kitchen", label: "Shared Kitchen" },
-  { id: 47, value: "tv", label: "TV" },
-  { id: 48, value: "cable_tv", label: "Cable TV" },
-  { id: 49, value: "smart_tv", label: "Smart TV" },
-  { id: 50, value: "toaster", label: "Toaster" },
-  { id: 51, value: "wardrobe", label: "Wardrobe" },
-  { id: 52, value: "washing_machine", label: "Washing Machine" },
-  { id: 53, value: "pool_private", label: "Pool private" },
-  { id: 54, value: "pool_shared", label: "Pool shared" },
-  { id: 55, value: "part_of_the_complex", label: "Part of the complex" },
-];
+import { amenities } from "@/lib/data/dropdownData";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -122,7 +61,7 @@ const Page = () => {
 
   useEffect(() => {
     setUser(
-      JSON.parse(localStorage.getItem("sb-bttvroyktkjlseeiblwt-auth-token")!)
+      JSON.parse(localStorage.getItem("userData")!)
     );
   }, []);
 
@@ -178,7 +117,7 @@ const Page = () => {
         land_zoning: landZoning,
         construction_status: constructionStatus,
         uploaded_urls: uploadedUrls,
-        created_by: user?.user.id,
+        created_by: user?.id,
       };
       var sell = {
         lease_hold_price: Number(leaseHoldPrice),

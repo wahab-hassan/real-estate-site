@@ -9,17 +9,17 @@ export async function createRecord(table: any, data: any) {
   return createdRecord;
 }
 export async function readRecords(
-  table:any,
-  condition:any = {},
+  table: any,
+  condition: any = {},
   limit = 10,
   page = 1
 ) {
   const offset = (page - 1) * limit;
 
-  let query = supabase.from(table).select('*');
+  let query = supabase.from(table).select("*");
 
   // Apply conditions
-  Object.keys(condition).forEach(key => {
+  Object.keys(condition).forEach((key) => {
     query = query.eq(key, condition[key]);
   });
 
@@ -159,114 +159,216 @@ export async function uploadImages(files: any[]) {
   return uploadedImages;
 }
 
+export async function getPropertiesByUser(
+  condition: any,
+  page = 1,
+  limit = 10
+) {
+  try {
+    // Calculate the starting index based on the page and limit
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+    console.log(condition);
 
+    // Fetch properties created by the specified user with pagination
+    const propertiesData: any = await supabase
+      .from("property")
+      .select("*")
+      .eq(condition.key, String(condition.value))
+      .range(from, to);
 
-export async function getPropertiesByUser(condition:any, page = 1, limit = 10){
+    console.log(propertiesData);
+
+    if (propertiesData.error) throw propertiesData.error;
+
+    // Fetch additional data for each property
+    const propertiesWithDetails = await Promise.all(
+      propertiesData.data.map(async (property: any) => {
+        let additionalData = null;
+
+        if (property.list_type === "sell") {
+          // Fetch associated sellable data
+          const { data: sellableData, error: sellableError } = await supabase
+            .from("sellable")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
+
+          if (sellableError) throw sellableError;
+
+          additionalData = sellableData;
+        } else if (property.list_type === "rent") {
+          // Fetch associated rental data
+          const { data: rentalData, error: rentalError } = await supabase
+            .from("rental")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
+
+          if (rentalError) throw rentalError;
+
+          additionalData = rentalData;
+        }
+
+        return { ...property, additionalData };
+      })
+    );
+
+    return propertiesWithDetails;
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    return [];
+  }
+}
+
+export async function getProperties(page = 1, limit = 10) {
   try {
     // Calculate the starting index based on the page and limit
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
     // Fetch properties created by the specified user with pagination
-    const propertiesData:any = await supabase
-      .from('property')
-      .select('*')
-      .eq(condition.key, condition.value)
+    const propertiesData: any = await supabase
+      .from("property")
+      .select("*")
       .range(from, to);
 
-      console.log(propertiesData, JSON.parse(localStorage.getItem("userData")!).id);
-      
     if (propertiesData.error) throw propertiesData.error;
 
     // Fetch additional data for each property
-    const propertiesWithDetails = await Promise.all(propertiesData.data.map(async (property:any) => {
-      let additionalData = null;
+    const propertiesWithDetails = await Promise.all(
+      propertiesData.data.map(async (property: any) => {
+        let additionalData = null;
 
-      if (property.list_type === 'sell') {
-        // Fetch associated sellable data
-        const { data: sellableData, error: sellableError } = await supabase
-          .from('sellable')
-          .select('*')
-          .eq('id', property.listType_id)
-          .single();
+        if (property.list_type === "sell") {
+          // Fetch associated sellable data
+          const { data: sellableData, error: sellableError } = await supabase
+            .from("sellable")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
 
-        if (sellableError) throw sellableError;
+          if (sellableError) throw sellableError;
 
-        additionalData = sellableData;
-      } else if (property.list_type === 'rent') {
-        // Fetch associated rental data
-        const { data: rentalData, error: rentalError } = await supabase
-          .from('rental')
-          .select('*')
-          .eq('id', property.listType_id)
-          .single();
+          additionalData = sellableData;
+        } else if (property.list_type === "rent") {
+          // Fetch associated rental data
+          const { data: rentalData, error: rentalError } = await supabase
+            .from("rental")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
 
-        if (rentalError) throw rentalError;
+          if (rentalError) throw rentalError;
 
-        additionalData = rentalData;
-      }
+          additionalData = rentalData;
+        }
 
-      return { ...property, additionalData };
-    }));
+        return { ...property, additionalData };
+      })
+    );
 
     return propertiesWithDetails;
   } catch (error) {
-    console.error('Error fetching properties:', error);
-    alert('Failed to fetch properties. Please try again.');
+    console.error("Error fetching properties:", error);
+    alert("Failed to fetch properties. Please try again.");
     return [];
+  }
+}
+
+export const updatePropertyData = async (
+  propertyId: number,
+  property: any,
+  rent: any,
+  sell: any
+) => {
+  try {
+    console.log("Updating property:", property, rent, sell);
+
+    let rentalId = property.rental_id || null;
+    let sellableId = property.sellable_id || null;
+
+    if (property.list_type === "sell" && sellableId) {
+      // Update data in the sellable table
+      const { error: sellableError } = await supabase
+        .from("sellable")
+        .update(sell)
+        .eq("id", sellableId);
+
+      if (sellableError) throw sellableError;
+    }
+
+    if (property.list_type === "rent" && rentalId) {
+      // Update data in the rental table
+      const { error: rentalError } = await supabase
+        .from("rental")
+        .update(rent)
+        .eq("id", rentalId);
+
+      if (rentalError) throw rentalError;
+    }
+
+    // Update data in the property table
+    const { data: updatedPropertyData, error: propertyError } = await supabase
+      .from("property")
+      .update(property)
+      .eq("id", propertyId)
+      .select();
+
+    if (propertyError) throw propertyError;
+
+    return { data: updatedPropertyData };
+  } catch (error) {
+    console.error("Error updating property:", error);
+    return { error };
   }
 };
 
-export async function getProperties(page = 1, limit = 10){
+export const fetchFavoriteProperties = async (userId: string | number) => {
   try {
-    // Calculate the starting index based on the page and limit
-    const from = (page - 1) * limit;
-    const to = from + limit - 1;
+    const { data, error } = await supabase
+      .from("favorite")
+      .select(
+        `
+        id,
+        created_at,
+        property:property_id (
+          id,
+          name,
+          phone_number,
+          email,
+          list_type,
+          list_for,
+          property_type,
+          property_name,
+          land_size,
+          building_size,
+          bedrooms,
+          bathrooms,
+          living_room_type,
+          pool_type,
+          levels,
+          parking,
+          furnished,
+          features,
+          location_pin,
+          images_urls,
+          property_description,
+          land_zoning,
+          construction_status,
+          uploaded_urls,
+          selected_feature,
+          listType_id
+        )
+      `
+      )
+      .eq("user_id", userId);
 
-    // Fetch properties created by the specified user with pagination
-    const propertiesData:any = await supabase
-      .from('property')
-      .select('*')
-      .range(from, to);
+    if (error) throw error;
 
-      
-    if (propertiesData.error) throw propertiesData.error;
-
-    // Fetch additional data for each property
-    const propertiesWithDetails = await Promise.all(propertiesData.data.map(async (property:any) => {
-      let additionalData = null;
-
-      if (property.list_type === 'sell') {
-        // Fetch associated sellable data
-        const { data: sellableData, error: sellableError } = await supabase
-          .from('sellable')
-          .select('*')
-          .eq('id', property.listType_id)
-          .single();
-
-        if (sellableError) throw sellableError;
-
-        additionalData = sellableData;
-      } else if (property.list_type === 'rent') {
-        // Fetch associated rental data
-        const { data: rentalData, error: rentalError } = await supabase
-          .from('rental')
-          .select('*')
-          .eq('id', property.listType_id)
-          .single();
-
-        if (rentalError) throw rentalError;
-
-        additionalData = rentalData;
-      }
-
-      return { ...property, additionalData };
-    }));
-
-    return propertiesWithDetails;
+    return data;
   } catch (error) {
-    console.error('Error fetching properties:', error);
-    alert('Failed to fetch properties. Please try again.');
-    return [];
+    console.error("Error fetching favorite properties:", error);
+    return null;
   }
 };

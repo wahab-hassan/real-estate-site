@@ -6,8 +6,9 @@ import React, { useEffect, useState } from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { HiHeart, HiUsers } from "react-icons/hi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
+import { MdClose } from "react-icons/md";
 
-const Sidebar = () => {
+const Sidebar = ({ openSidebar }: any) => {
   const router = useRouter();
   const [user, setUser]: any = useState();
 
@@ -18,14 +19,17 @@ const Sidebar = () => {
   return (
     <>
       <aside
-        className={`bg-white fixed left-0 top-0 w-80  z-40 overflow-hidden border-r border-border/40 h-screen  transition-all ease-in-out duration-300`}
+        className={`bg-white w-full  overflow-hidden border-r z-50 border-border/40 h-screen  transition-all ease-in-out duration-300`}
       >
         <div className="overflow-auto h-full">
           <div className="w-10/12 mx-auto py-4 ">
-            <div className="flex justify-between items-center pb-4 border-b-[1px] border-border/80">
+            <div className="flex items-center justify-between pb-4 border-b-[1px] border-border/80">
               <h1>
                 ABNB <span className="text-third text-5xl -ml-2">.</span>
               </h1>
+              <button className=" btn btn-outline rounded-full p-3 block md:hidden" onClick={openSidebar}>
+                <MdClose />
+              </button>
             </div>
             <div className="block mt-8 mb-12">
               <Link
