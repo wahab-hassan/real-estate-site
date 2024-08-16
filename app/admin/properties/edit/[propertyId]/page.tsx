@@ -18,6 +18,7 @@ import { amenities } from "@/lib/data/dropdownData";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Topbar from "@/components/common/Account/Topbar";
 import Sidebar from "@/components/common/Account/Sidebar";
+import Link from "next/link";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -285,7 +286,19 @@ const Page = () => {
     }
   };
 
-  return isLoading ? (
+  return localStorage.getItem("adminData") === null ? (
+    <>
+      <div className="h-screen w-screen flex justify-center items-center">
+        <div className="block text-center leading-10">
+          <h1>Acccess Denied</h1>
+          <p>Please Login First</p>
+          <Link href={"/admin/auth/login"} className="btn btn-secondary">
+            Go to Login
+          </Link>
+        </div>
+      </div>
+    </>
+  ) : isLoading ? (
     <div className="w-screen h-screen">
       <Loader />
     </div>

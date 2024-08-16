@@ -34,7 +34,7 @@ export async function signIn(userId: any, userName: any) {
   // Check if user with the given ID exists
   const data: any = await supabase
     .from("users")
-      .select("*")
+    .select("*")
     .eq("id", userId)
     .single();
 
@@ -65,7 +65,7 @@ export async function signIn(userId: any, userName: any) {
     localStorage.setItem("isLoggedIn", "true");
 
     return newUser;
-    } else {
+  } else {
     // User exists, store their data in localStorage
     localStorage.setItem("userData", JSON.stringify(data.data));
     localStorage.setItem("isLoggedIn", "true");
@@ -73,7 +73,6 @@ export async function signIn(userId: any, userName: any) {
     return data.data;
   }
 }
-
 
 export async function adminSignIn(email: any, password: any) {
   try {
@@ -118,21 +117,21 @@ export async function adminSignIn(email: any, password: any) {
   }
 }
 
-
 export async function signOut() {
   const { error } = await supabase.auth.signOut();
 
   if (error) throw error;
   localStorage.removeItem("userData");
+  localStorage.removeItem("adminData");
 
   return true;
 }
 
-
-export function  handleKakaoLogout(){
+export function handleKakaoLogout() {
   window.Kakao.Auth.logout((err: any) => {
     console.log(err);
     localStorage.removeItem("userData");
+    localStorage.removeItem("adminData");
     localStorage.setItem("isLoggedIn", "false");
   });
-};
+}

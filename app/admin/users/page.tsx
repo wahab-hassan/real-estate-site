@@ -2,6 +2,7 @@
 import Sidebar from "@/components/common/Admin/Sidebar";
 import Topbar from "@/components/common/Admin/Topbar";
 import UsersListing from "@/components/common/Admin/UsersListing";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const Page = () => {
@@ -9,7 +10,19 @@ const Page = () => {
   const handleOpen = () => {
     setopenSide(!openSide);
   };
-  return (
+  return  localStorage.getItem("adminData") === null ? (
+    <>
+      <div className="h-screen w-screen flex justify-center items-center">
+        <div className="block text-center leading-10">
+          <h1>Acccess Denied</h1>
+          <p>Please Login First</p>
+          <Link href={"/admin/auth/login"} className="btn btn-secondary">
+            Go to Login
+          </Link>
+        </div>
+      </div>
+    </>
+  ) :(
     <>
       <div className="relative w-full h-screen flex items-center gap-x-4 md:gap-0 md:grid md:grid-cols-12 ">
         <div
@@ -27,7 +40,6 @@ const Page = () => {
                 <h2>Users</h2>
                 <p>List of Users</p>
               </div>
-              
             </div>
             <UsersListing />
           </div>
