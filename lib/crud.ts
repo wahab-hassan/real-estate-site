@@ -72,7 +72,19 @@ export async function readPaginatedRecords(table: any, limit: any, page: any) {
 export async function getTotalRecords(table: string) {
   const { count, error } = await supabase
     .from(table)
-    .select("*", { count: "exact", head: true });
+    .select("*", { count: "exact", head: true })
+    .eq("is_active", 'true')
+    .eq("status", 'published')
+
+  if (error) throw error;
+  return count;
+}
+
+export async function getTotalUsers(table: string) {
+  const { count, error } = await supabase
+    .from(table)
+    .select("*", { count: "exact", head: true })
+    .eq("is_active", 'true')
 
   if (error) throw error;
   return count;
@@ -370,5 +382,125 @@ export const fetchFavoriteProperties = async (userId: string | number) => {
   } catch (error) {
     console.error("Error fetching favorite properties:", error);
     return null;
+  }
+};
+
+export async function getFilteredProperties(
+  page = 1,
+  limit = 10,
+  sortBy = "created_at",
+  sortOrder = "desc", // default sorting order: 'desc'
+  filters: { key: string; value: any }[] = [], // array of filter objects
+  searchQuery = null // optional search query
+) {
+  try {
+    // Calculate the starting index based on the page and limit
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    // Start building the query
+    let query = supabase
+      .from("property")
+      .select("*")
+      .order(sortBy, { ascending: sortOrder === "asc" }) // Sorting
+      .range(from, to);
+
+    // Apply filters dynamically
+    filters.forEach((filter) => {
+      query = query.eq(filter.key, filter.value);
+    });
+
+    // Apply search queries if provided
+    if (searchQuery) {
+      query = query.or(
+        `name.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,property_name.ilike.%${searchQuery}%`
+      );
+    }
+
+    // Fetch properties with the applied filters, sorting, and search query
+    const propertiesData: any = await query;
+
+    if (propertiesData.error) throw propertiesData.error;
+
+    // Fetch additional data for each property
+    const propertiesWithDetails = await Promise.all(
+      propertiesData.data.map(async (property: any) => {
+        let additionalData = null;
+
+        if (property.list_type === "sell") {
+          // Fetch associated sellable data
+          const { data: sellableData, error: sellableError } = await supabase
+            .from("sellable")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
+
+          if (sellableError) throw sellableError;
+
+          additionalData = sellableData;
+        } else if (property.list_type === "rent") {
+          // Fetch associated rental data
+          const { data: rentalData, error: rentalError } = await supabase
+            .from("rental")
+            .select("*")
+            .eq("id", property.listType_id)
+            .single();
+
+          if (rentalError) throw rentalError;
+
+          additionalData = rentalData;
+        }
+
+        return { ...property, additionalData };
+      })
+    );
+
+    return propertiesWithDetails;
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    alert("Failed to fetch properties. Please try again.");
+    return [];
+  }
+}
+
+
+export const getFilteredUsers = async (
+  table:string,
+  page: number,
+  limit: number,
+  sortBy: string,
+  sortOrder = 'asc',
+  filters: Array<{ key: string; value: any }> = [],
+  search = null
+) => {
+  try {
+    const offset = (page - 1) * limit;
+
+    let query = supabase
+      .from(table)
+      .select("*", { count: "exact" })
+      .order(sortBy, { ascending: sortOrder === "asc" })
+      .range(offset, offset + limit - 1);
+
+    // Apply filters
+    filters.forEach((filter) => {
+      query = query.eq(filter.key, filter.value);
+    });
+
+    // Apply search if any
+    if (search) {
+      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`);
+    }
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      throw error;
+    }
+
+    return { data, count };
+  } catch (error) {
+    console.error("Error fetching filtered users:", error);
+    throw error;
   }
 };

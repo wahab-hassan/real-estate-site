@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "@/lib/auth";
+import { adminSignIn, signIn } from "@/lib/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -16,22 +16,36 @@ const Page = () => {
     event.preventDefault();
     setError("");
     try {
-      const result = await signIn(email, password);
+      const result = await adminSignIn(email, password);
       // Handle successful signup (e.g., redirect or show a success message)
       console.log(result);
-
-      toast.success("Login successful", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-      router.push(`/account/${result.id}`); // Redirect to a protected route after login
+      if (result.success) {
+        // User exists, store their data in localStorage
+        toast.success("Login successful", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        router.push("/admin/properties");
+      } else {
+        toast.error("Login failed.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
     } catch (error) {
       toast.error("Login failed.", {
         position: "bottom-right",
@@ -50,20 +64,11 @@ const Page = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <div className="grid md:grid-cols-2 items-center gap-4 max-md:gap-8 max-w-6xl max-md:max-w-lg w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
-          <div className="md:max-w-md w-full px-4 py-4">
+        <div className="flex items-center gap-4 w-11/12 md:w-5/12 lg:max-w-lg p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md">
+          <div className="w-full px-4 py-4">
             <form>
               <div className="mb-12">
-                <h2 className=" font-extrabold">Login </h2>
-                <p className="text-sm mt-4 ">
-                  Don&apos;t have an account{" "}
-                  <Link
-                    href="/auth/register"
-                    className="text-third font-semibold hover:underline ml-1 whitespace-nowrap"
-                  >
-                    Register here
-                  </Link>
-                </p>
+                <h2 className=" font-extrabold text-center">Admin Login </h2>
               </div>
 
               <div>
@@ -106,14 +111,6 @@ const Page = () => {
                 </button>
               </div>
             </form>
-          </div>
-
-          <div className="md:h-full bg-primary rounded-xl lg:p-12 p-8">
-            <img
-              src="https://readymadeui.com/signin-image.webp"
-              className="w-full h-full object-contain"
-              alt="login-image"
-            />
           </div>
         </div>
       </div>

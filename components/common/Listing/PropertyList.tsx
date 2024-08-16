@@ -4,7 +4,7 @@ import { BiFilterAlt, BiMinus } from "react-icons/bi";
 
 import { Select } from "@headlessui/react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
-import { getProperties, getTotalRecords, readPaginatedRecords } from "@/lib/crud";
+import { getFilteredProperties, getProperties, getTotalRecords, readPaginatedRecords } from "@/lib/crud";
 import Card from "../Card";
 import Loader from "../Loader";
 
@@ -33,9 +33,22 @@ const PropertyList = () => {
   const fetchRecords = async (page: any, limit: any) => {
     setLoading(true);
     try {
-      const data: any = await getProperties(
+      const data: any = await getFilteredProperties(
         page,
-        limit
+        limit,
+        'created_at',
+        'asc',
+       [
+        {
+            key: "is_active",
+            value: true,
+          },
+          {
+            key: 'status',
+            value: 'published',
+          },
+       ]
+        
       );
       console.log(data);
       

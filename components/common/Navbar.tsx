@@ -58,152 +58,173 @@ const Navbar = () => {
 
   return (
     <>
+      
       <nav
         className={`${
           header ? "bg-primary/90 sticky top-0 left-0 " : "absolute top-0"
-        } w-full bg-primary/50 z-50 transition-all ease-in-out duration-300`}
+        } w-full bg-primary/50 z-50 transition-all ease-in-out duration-300 px-4 py-2 flex justify-between items-center`}
       >
-        <div className="w-11/12 mx-auto flex justify-between items-center py-4 lg:border-b-[1px] lg:border-white/30">
-          <h1 className="text-white">
-            ABNB <span className="text-third text-5xl -ml-2">.</span>
-          </h1>
-
-          <div className="hidden lg:flex items-center text-white">
-            <p className="text-md w-40 font-medium text-start mr-3">
-              12/A, New Hilton Tower, NYC, USA
-            </p>
-            <p className="text-md w-40 text-start mr-3">
-              Mon to Sat: 8:00 - 16:00 <br /> Sunday Closed
-            </p>
-            <p className="text-md w-40 text-start">
-              +(123) 456 789 00 <br />
-              info@abnb.com
-            </p>
-          </div>
+        <h2 className="text-white leading-none">
+        비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
+        </h2>
+        <div className="lg:hidden">
           <button
             onClick={() => setOpen(!open)}
-            className="bg-dark p-3 rounded-md hover:opacity-60 text-white transition-all duration-300 lg:hidden"
+            className="bg-dark p-2 rounded-md hover:opacity-60 text-white transition-all duration-300 lg:hidden"
           >
-            <HiOutlineMenuAlt3 className="text-white text-3xl" />
+            <HiOutlineMenuAlt3 className="text-white text-2xl" />
           </button>
         </div>
-        <div className="hidden w-11/12 mx-auto lg:flex justify-between items-center py-3">
-          <div className="flex items-center">
+        <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
+          <li>
             <Link
               href={"/"}
-              className="text-white px-5 py-2 font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
+              className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              Home
+            집
             </Link>
+          </li>
+          <li className="text-gray-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              stroke="currentColor"
+              className="w-4 h-4 current-fill"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
+            </svg>
+          </li>
+          <li>
             <Link
               href={"/listing"}
-              className="text-white px-5 py-2 font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
+              className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              Listing
+              상장
+
             </Link>
+          </li>
+          <li className="text-gray-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              stroke="currentColor"
+              className="w-4 h-4 current-fill"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
+            </svg>
+          </li>
+          <li>
             <Link
               href={"/"}
-              className="text-white px-5 py-2 font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
+              className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              About us
-            </Link>
-          </div>
-          <div className="flex items-center gap-x-4 mr-4">
-            <div className="relative inline-block text-left">
-              {!isLoggedIn ? (
-                <KakaoLogin
-                  token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
-                  onSuccess={(obj: any) => {
-                    signIn(
-                      String(obj?.profile?.id),
-                      obj?.profile?.kakao_account?.profile?.nickname
-                    );
-                    router.push("/listing");
-                    setisLoggedIn(true);
-                  }}
-                  onFail={console.error}
-                  onLogout={console.info}
-                >
-                  <div className="flex items-center justify-center text-center w-full font-medium">
-                    {" "}
-                    <BsChat className="text-lg mr-2" /> Login Using KakaoTalk
-                  </div>
-                </KakaoLogin>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="btn btn-secondary py-3 flex items-center"
-                    onClick={() => setdropDown(!dropDown)}
-                  >
-                    <LiaUserSolid className="inline text-xl mr-1" /> Account
-                  </button>
-                  <div
-                    className={`${
-                      dropDown
-                        ? "transform opacity-100 scale-100"
-                        : "transform opacity-0 scale-95"
-                    } transition ease-out duration-100 absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                    role="menu"
-                    aria-orientation="vertical"
-                    aria-labelledby="menu-button"
-                  >
-                    <div className="py-1" role="none">
-                      <Link
-                        href={`/account/${user?.id}/properties`}
-                        className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                        role="menuitem"
-                        id="menu-item-0"
-                      >
-                        <span className="flex items-center">
-                          {" "}
-                          <BsPerson className="mr-2" /> Account{" "}
-                        </span>{" "}
-                        <BsChevronRight />
-                      </Link>
-                      {/* <button
-                        className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                        role="menuitem"
-                        id="menu-item-0"
-                        onClick={() => logout()}
-                      >
-                        Sign Out <BsChevronRight />
-                      </button> */}
-                      <KakaoLoginButton />
-                      <button
-                        onClick={() => {
-                          handleKakaoLogout();
-                          setisLoggedIn(false);
-                          localStorage.setItem("isLoggedIn", "false");
-                        }}
-                        type="button"
-                        className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
-                      >
-                        <span className="flex items-center">
-                          {" "}
-                          <BiExit className="text-lg mr-2" /> Logout{" "}
-                        </span>{" "}
-                        <BsChevronRight className="" />
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+              회사 소개
 
-            <button
-              className="btn btn-main py-3 flex items-center"
-              onClick={() => {
-                localStorage.getItem("sb-bttvroyktkjlseeiblwt-auth-token")
-                  ? router.push("/add-listing")
-                  : alert("Please Login to add listing");
-              }}
-            >
-              <LiaHomeSolid className="inline text-xl mr-1" /> Add Listing
-            </button>
+            </Link>
+          </li>
+        </ul>
+        <div className="flex items-center gap-x-4 mr-4">
+          <div className="relative inline-block text-left">
+            {!isLoggedIn ? (
+              <KakaoLogin
+              className="bg-main text-white px-4 py-2 rounded-md hover:opacity-60 transition-all ease-in-out duration-300"
+                token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
+                onSuccess={(obj: any) => {
+                  signIn(
+                    String(obj?.profile?.id),
+                    obj?.profile?.kakao_account?.profile?.nickname
+                  );
+                  router.push("/listing");
+                  setisLoggedIn(true);
+                }}
+                onFail={console.error}
+                onLogout={console.info}
+              >
+                <div className="flex items-center justify-center text-center p-0 font-medium">
+                  {" "}
+                  <BsChat className="text-lg mr-2" /> Login Using KakaoTalk
+                </div>
+              </KakaoLogin>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="btn btn-secondary py-2  px-3 flex items-center"
+                  onClick={() => setdropDown(!dropDown)}
+                >
+                  <LiaUserSolid className="inline text-xl mr-1" /> Account
+                </button>
+                <div
+                  className={`${
+                    dropDown
+                      ? "transform opacity-100 scale-100"
+                      : "transform opacity-0 scale-95"
+                  } transition ease-out duration-100 absolute right-0 z-10 mt-2 w-44 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="menu-button"
+                >
+                  <div className="py-1" role="none">
+                    <Link
+                      href={`/account/${user?.id}/properties`}
+                      className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                      role="menuitem"
+                      id="menu-item-0"
+                    >
+                      <span className="flex items-center">
+                        {" "}
+                        <BsPerson className="mr-2" /> Account{" "}
+                      </span>{" "}
+                      <BsChevronRight />
+                    </Link>
+
+                    <KakaoLoginButton />
+                    <button
+                      onClick={() => {
+                        handleKakaoLogout();
+                        setisLoggedIn(false);
+                        localStorage.setItem("isLoggedIn", "false");
+                      }}
+                      type="button"
+                      className="flex items-center w-full justify-between px-4 py-2 text-sm text-gray-700 border-b border-border/30 hover:bg-light transition-all ease-in-out duration-300"
+                    >
+                      <span className="flex items-center">
+                        {" "}
+                        <BiExit className="text-lg mr-2" /> Logout{" "}
+                      </span>{" "}
+                      <BsChevronRight className="" />
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
+
+          <button
+            className="btn btn-main  py-2  px-3  flex items-center"
+            onClick={() => {
+              !isLoggedIn
+                ? router.push("/add-listing")
+                : alert("Please Login to add listing");
+            }}
+          >
+            <LiaHomeSolid className="inline text-xl mr-1" /> Add Listing
+          </button>
         </div>
       </nav>
+
       {/* mobile menu */}
       <div
         className={`${
