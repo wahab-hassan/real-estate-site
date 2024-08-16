@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
 import Footer2 from "@/components/common/Footer2";
@@ -62,6 +62,11 @@ const Page = () => {
   const [user, setUser]: any = useState();
   const [isLoading, setisLoading]: any = useState(false);
   const [openSide, setopenSide] = useState(false);
+  const [adminUser, setadminUser] = useState()
+  useEffect(() => {
+   setadminUser(JSON.parse(localStorage.getItem("adminData")!));
+  }, [])
+
   const handleOpen = () => {
     setopenSide(!openSide);
   };
@@ -187,7 +192,7 @@ const Page = () => {
     }
   };
 
-  return localStorage.getItem("adminData") === null ? (
+  return adminUser === null ? (
     <>
       <div className="h-screen w-screen flex justify-center items-center">
         <div className="block text-center leading-10">

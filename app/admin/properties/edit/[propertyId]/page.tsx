@@ -71,6 +71,12 @@ const Page = () => {
   const propertyId: any = router.propertyId;
   const userID: any = router.id;
   const [openSide, setopenSide] = useState(false);
+  const [adminUser, setadminUser] = useState()
+  useEffect(() => {
+   setadminUser(JSON.parse(localStorage.getItem("adminData")!));
+  }, [])
+
+
   const handleOpen = () => {
     setopenSide(!openSide);
   };
@@ -286,7 +292,7 @@ const Page = () => {
     }
   };
 
-  return localStorage.getItem("adminData") === null ? (
+  return adminUser === null ? (
     <>
       <div className="h-screen w-screen flex justify-center items-center">
         <div className="block text-center leading-10">
