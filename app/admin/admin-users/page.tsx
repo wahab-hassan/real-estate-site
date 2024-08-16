@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import AdminUserListing from "@/components/common/Admin/AdminUserListing";
 import Sidebar from "@/components/common/Admin/Sidebar";
 import Topbar from "@/components/common/Admin/Topbar";
