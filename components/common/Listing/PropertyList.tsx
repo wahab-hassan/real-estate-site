@@ -4,7 +4,12 @@ import { BiFilterAlt, BiMinus } from "react-icons/bi";
 
 import { Select } from "@headlessui/react";
 import { BsChevronLeft, BsChevronRight, BsPlus } from "react-icons/bs";
-import { getFilteredProperties, getProperties, getTotalRecords, readPaginatedRecords } from "@/lib/crud";
+import {
+  getFilteredProperties,
+  getProperties,
+  getTotalRecords,
+  readPaginatedRecords,
+} from "@/lib/crud";
 import Card from "../Card";
 import Loader from "../Loader";
 
@@ -18,17 +23,23 @@ const PropertyList = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [limit, setLimit] = useState(10); // Default number of records per page
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState("created_at");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [landSizeMin, setlandSizeMin] = useState("");
+  const [landSizeMax, setlandSizeMax] = useState("");
+  const [bedrooms, setbedrooms] = useState("");
+  const [bathrooms, setbathrooms] = useState("");
   useEffect(() => {
     fetchRecords(page, limit);
-   getCount();
-  }, [page, limit]);
+    getCount();
+  }, [page, limit, sortBy, sortOrder]);
 
-  const getCount =async ()=>{
-    const count:any = await getTotalRecords('property');
+  const getCount = async () => {
+    const count: any = await getTotalRecords("property");
     console.log(count);
-    
+
     setTotalRecords(count);
-  }
+  };
 
   const fetchRecords = async (page: any, limit: any) => {
     setLoading(true);
@@ -36,28 +47,68 @@ const PropertyList = () => {
       const data: any = await getFilteredProperties(
         page,
         limit,
-        'created_at',
-        'asc',
-       [
-        {
+        sortBy,
+        sortOrder,
+        [
+          {
             key: "is_active",
             value: true,
           },
           {
-            key: 'status',
-            value: 'published',
+            key: "status",
+            value: "published",
           },
-       ]
-        
+        ]
       );
       console.log(data);
-      
+
       setRecords(data);
     } catch (error) {
       console.error("Error fetching records:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlefilters = async () => {
+    // Prepare filters array
+    const filters = [];
+    let search: any;
+    if (landSizeMax && landSizeMax !== "") {
+      search = { ...search, landSizeMax: landSizeMax };
+    }
+    if (landSizeMin && landSizeMin !== "") {
+      search = { ...search, landSizeMin: landSizeMin };
+    }
+    if (bedrooms && bedrooms !== "") {
+      search = { ...search, bedrooms: bedrooms };
+    }
+    if (bathrooms && bathrooms !== "") {
+      search = { ...search, bathrooms: bathrooms };
+    }
+    if (selectedOwnerShip && selectedOwnerShip.length > 0) {
+      filters.push({ key: "list_for", value: selectedOwnerShip });
+    }
+    if (selectedPropertyType && selectedPropertyType.length > 0) {
+      filters.push({ key: "property_type", value: selectedPropertyType });
+    }
+    console.log(filters);
+
+    // Fetch filtered properties
+    const filteredProperties: any = await getFilteredProperties(
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+      filters,
+      search
+    );
+    console.log(filteredProperties);
+
+    // Update properties state with the filtered results
+    setRecords(filteredProperties);
+    // setTotalRecords(filteredProperties.length);
+    // setIsOpen(false);
   };
 
   const handleNextPage = () => {
@@ -108,26 +159,31 @@ const PropertyList = () => {
   var propertyTypes: any = [
     {
       name: "Villa",
+      value:'villa',
       count: 100,
       checked: false,
     },
     {
       name: "Apartment",
+      value:'apartment',
       count: 100,
       checked: false,
     },
     {
       name: "Land",
+      value:'land',
       count: 100,
       checked: false,
     },
     {
       name: "Hotel/Villa Complex",
+      value:'hotel',
       count: 100,
       checked: false,
     },
     {
       name: "Commercial",
+      value:'commercial',
       count: 100,
       checked: false,
     },
@@ -136,14 +192,17 @@ const PropertyList = () => {
   const ownerShip: any = [
     {
       name: "Freehold",
+      value: "freehold",
       checked: false,
     },
     {
       name: "Leasehold",
+      value: "leasehold",
       checked: false,
     },
     {
       name: "Yearly Rental",
+      value: "yearly",
       checked: false,
     },
   ];
@@ -184,16 +243,10 @@ const PropertyList = () => {
   return (
     <>
       <section className="py-10">
-        <div className="w-11/12 mx-auto block lg:grid lg:grid-cols-8 gap-x-5">
-          <div className="w-11/12 mx-auto col-span-6 lg:border-e lg:border-border/50 lg:pr-10">
+        <div className="w-full mx-auto block gap-x-5">
+          <div className="w-9/12 mx-auto col-span-6 ">
             <div className="flex items-center justify-between ">
               <div className="flex items-center gap-x-2">
-                {/* <button className="btn btn-outline p-2 rounded-none">
-                  <CgMenuGridR className="icon" />
-                </button>
-                <button className="btn btn-outline p-2 rounded-none">
-                  <CgMenu className="icon" />
-                </button> */}
                 <h5 className="opacity-60 text-lg ml-4">
                   Showing{" "}
                   <span className="font-semibold">
@@ -205,29 +258,11 @@ const PropertyList = () => {
               </div>
               <div className="flex items-center gap-x-2">
                 <button
-                  className="btn btn-outline p-2 rounded-none lg:hidden "
+                  className="btn btn-outline p-2 rounded-none"
                   onClick={() => setIsOpen(!isOpen)}
                 >
-                  <BiFilterAlt className="text-xl" />
+                  <BiFilterAlt className="text-xl inline-block mr-3" /> Filters
                 </button>
-                <Select
-                  className={
-                    "bg-white border border-border/60 w-52 pl-3 pr-6 py-2  focus:outline-none rounded-sm"
-                  }
-                >
-                  <option className="p-4" value="active">
-                    Active
-                  </option>
-                  <option className="p-4" value="paused">
-                    Paused
-                  </option>
-                  <option className="p-4" value="delayed">
-                    Delayed
-                  </option>
-                  <option className="p-4" value="canceled">
-                    Canceled
-                  </option>
-                </Select>
               </div>
             </div>
 
@@ -239,7 +274,7 @@ const PropertyList = () => {
               </div>
             ) : (
               <div className="max-w-md mx-auto md:max-w-2xl lg:max-w-none lg:w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 my-10">
-                {records.map((value: any) => {
+                {records?.map((value: any) => {
                   return <Card key={value.id} property={value} />;
                 })}
               </div>
@@ -307,24 +342,36 @@ const PropertyList = () => {
               isOpen
                 ? "opacity-100  z-[1000]"
                 : "opacity-0 pointer-events-none -z-50"
-            } fixed inset-0 w-full h-screen  bg-dark/30 lg:bg-transparent lg:block lg:opacity-100 lg:static lg:pointer-events-auto lg:z-0 lg:h-auto lg:col-span-2 transition-all ease-in-out duration-300`}
+            } fixed inset-0 w-full h-screen  bg-dark/30 transition-all ease-in-out duration-300`}
           >
-            <div className="overflow-auto rounded-md h-4/6 mx-auto shadow-lg w-8/12 px-8 py-10 shadow-black/40 my-32 bg-white lg:w-full lg:h-full lg:bg-transparent lg:shadow-none lg:p-0 lg:my-0 lg:rounded-none">
+            <div className="overflow-auto rounded-md h-4/6 mx-auto shadow-lg w-8/12 px-8 py-10 shadow-black/40 my-32 bg-white ">
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5 ">
                 <h3 className="font-bold">Filters</h3>
                 <div className="flex gap-x-2 mt-3">
                   <button
                     className="btn btn-outline px-2 font-semibold text-sm py-1 "
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => {
+                      setlandSizeMin("");
+                      setlandSizeMax("");
+                      setselectedOwnerShip("");
+                      setselectedPropertyType("");
+                      setbathrooms("");
+                      setbedrooms("");
+                      setIsOpen(!isOpen);
+                      fetchRecords(page, limit);
+                    }}
                   >
                     Clear All {">"}
                   </button>
-                  <button className="btn btn-outline px-2 font-semibold text-sm py-1 ">
-                    Show Options {">"}
+                  <button
+                    className="btn btn-outline px-2 font-semibold text-sm py-1 "
+                    onClick={handlefilters}
+                  >
+                    Show filtered options {">"}
                   </button>
                 </div>
               </div>
-              <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
+              {/* <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
                 <h4>Price Range</h4>
                 <div className="flex items-center justify-between gap-x-2 my-3">
                   <div className="w-full">
@@ -346,7 +393,7 @@ const PropertyList = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
                 <h4>Land Size</h4>
                 <div className="flex items-center justify-between gap-x-2 my-3">
@@ -356,6 +403,13 @@ const PropertyList = () => {
                       min={0}
                       max={10000000}
                       placeholder="Sqm, Min"
+                      defaultValue={landSizeMin}
+                      onChange={(e) => {
+                        Number(e.target.value) > 0 &&
+                        landSizeMax > e.target.value
+                          ? setlandSizeMin(e.target.value)
+                          : "";
+                      }}
                       className="bg-white border border-border/40 rounded-sm w-full py-2 pl-2 text-sm focus:outline-none"
                     />
                   </div>
@@ -365,6 +419,12 @@ const PropertyList = () => {
                       min={0}
                       max={10000000}
                       placeholder="Sqm, Max"
+                      defaultValue={landSizeMax}
+                      onChange={(e) => {
+                        Number(e.target.value) > Number(landSizeMin)
+                          ? setlandSizeMax(e.target.value)
+                          : "";
+                      }}
                       className="bg-white border border-border/40 rounded-sm w-full py-2 pl-2 text-sm focus:outline-none"
                     />
                   </div>
@@ -375,14 +435,14 @@ const PropertyList = () => {
                 <div className="flex items-center flex-wrap my-3">
                   {ownerShip.map((type: any, index: number) => (
                     <span
-                    key={index}
+                      key={index}
                       className={`${
-                        selectedOwnerShip.includes(type.name)
+                        selectedOwnerShip.includes(type.value)
                           ? "bg-dark text-light hover:opacity-60"
                           : "hover:bg-light"
                       } rounded-md flex justify-center text-sm items-center text-nowrap border-[1px] py-1 px-2  border-border/30 mr-4 mb-2  transition-all ease-in-out duration-300`}
                       onClick={() => {
-                        SetOwnerShip(type.name);
+                        SetOwnerShip(type.value);
                       }}
                     >
                       {" "}
@@ -395,25 +455,60 @@ const PropertyList = () => {
                 <h4>Bedroom</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("")}
+                      className={` ${
+                        bedrooms === "" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       Any
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("1")}
+                      className={` ${
+                        bedrooms === "1" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       1
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("2")}
+                      className={` ${
+                        bedrooms === "2" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       2
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("3")}
+                      className={` ${
+                        bedrooms === "3" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       3
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("4")}
+                      className={` ${
+                        bedrooms === "4" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       4
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("5")}
+                      className={` ${
+                        bedrooms === "5" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       5
                     </span>
-                    <span className="w-full text-center py-2 border-r text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbedrooms("6")}
+                      className={` ${
+                        bedrooms === "6" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       6+
                     </span>
                   </div>
@@ -423,25 +518,60 @@ const PropertyList = () => {
                 <h4>Bathrooms</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("")}
+                      className={` ${
+                        bathrooms === "" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       Any
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("1")}
+                      className={` ${
+                        bathrooms === "1" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       1
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("2")}
+                      className={` ${
+                        bathrooms === "2" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       2
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("3")}
+                      className={` ${
+                        bathrooms === "3" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       3
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("4")}
+                      className={` ${
+                        bathrooms === "4" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       4
                     </span>
-                    <span className="w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("5")}
+                      className={` ${
+                        bathrooms === "5" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r border-border/40 text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       5
                     </span>
-                    <span className="w-full text-center py-2 border-r text-sm hover:bg-light transition-all ease-in-out duration-300 ">
+                    <span
+                      onClick={() => setbathrooms("6")}
+                      className={` ${
+                        bathrooms === "6" ? "bg-dark text-white" : ""
+                      } w-full text-center py-2 border-r text-sm hover:bg-light transition-all ease-in-out duration-300 `}
+                    >
                       6+
                     </span>
                   </div>
@@ -452,16 +582,19 @@ const PropertyList = () => {
                 <ul className="w-full mt-5 space-y-3">
                   {propertyTypes.map((type: any, index: any) => {
                     return (
-                      <li key={index} className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
+                      <li
+                        key={index}
+                        className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]"
+                      >
                         <span className="flex items-center gap-x-2">
                           <span
                             className={`${
-                              selectedPropertyType.includes(type.name)
+                              selectedPropertyType.includes(type.value)
                                 ? "bg-dark text-light hover:opacity-60"
                                 : "hover:bg-light"
                             } rounded flex justify-center items-center w-8 border-[1px] h-8 px-2  border-border/30 mr-4  transition-all ease-in-out duration-300`}
                             onClick={() => {
-                              setPropertyTypeValue(type.name);
+                              setPropertyTypeValue(type.value);
                             }}
                           >
                             <BsPlus
@@ -487,12 +620,15 @@ const PropertyList = () => {
                   })}
                 </ul>
               </div>
-              <div className="w-full border-b border-border/50 rounded-sm pb-6">
+              {/* <div className="w-full border-b border-border/50 rounded-sm pb-6">
                 <h4>Location</h4>
                 <ul className="w-full mt-5 space-y-3">
-                  {southKoreanLocations.map((location: any,  index: any) => {
+                  {southKoreanLocations.map((location: any, index: any) => {
                     return (
-                      <li key={index} className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]">
+                      <li
+                        key={index}
+                        className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]"
+                      >
                         <span className="flex items-center gap-x-2">
                           <span
                             className={`${
@@ -526,7 +662,7 @@ const PropertyList = () => {
                     );
                   })}
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

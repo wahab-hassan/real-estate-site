@@ -73,8 +73,8 @@ export async function getTotalRecords(table: string) {
   const { count, error } = await supabase
     .from(table)
     .select("*", { count: "exact", head: true })
-    .eq("is_active", 'true')
-    .eq("status", 'published')
+    .eq("is_active", "true")
+    .eq("status", "published");
 
   if (error) throw error;
   return count;
@@ -84,7 +84,7 @@ export async function getTotalUsers(table: string) {
   const { count, error } = await supabase
     .from(table)
     .select("*", { count: "exact", head: true })
-    .eq("is_active", 'true')
+    .eq("is_active", "true");
 
   if (error) throw error;
   return count;
@@ -391,7 +391,7 @@ export async function getFilteredProperties(
   sortBy = "created_at",
   sortOrder = "desc", // default sorting order: 'desc'
   filters: { key: string; value: any }[] = [], // array of filter objects
-  searchQuery = null // optional search query
+  searchQuery: any = null // optional search query
 ) {
   try {
     // Calculate the starting index based on the page and limit
@@ -407,14 +407,60 @@ export async function getFilteredProperties(
 
     // Apply filters dynamically
     filters.forEach((filter) => {
-      query = query.eq(filter.key, filter.value);
+      if (filter.key === "list_for" && filter.value.length > 0) {
+        query = query.in(filter.key, filter.value);
+      } else if (filter.key === "property_type" && filter.value.length > 0) {
+        query = query.in(filter.key, filter.value);
+      } else {
+        query = query.eq(filter.key, filter.value);
+      }
     });
 
     // Apply search queries if provided
     if (searchQuery) {
-      query = query.or(
-        `name.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,property_name.ilike.%${searchQuery}%`
-      );
+      console.log(searchQuery);
+
+      // Handle land size filters
+      if (searchQuery?.landSizeMin && searchQuery?.landSizeMax) {
+        query = query
+          .gte("land_size", Number(searchQuery.landSizeMin))
+          .lte("land_size", Number(searchQuery.landSizeMax));
+      } else if (searchQuery?.landSizeMin) {
+        query = query.gte("land_size", Number(searchQuery.landSizeMin));
+      } else if (searchQuery?.landSizeMax) {
+        query = query.lte("land_size", Number(searchQuery.landSizeMax));
+      }
+
+      // Handle bedroom filters
+      if (searchQuery?.bedrooms) {
+        if (searchQuery.bedrooms === "6") {
+          query = query.gte("bedrooms", 6);
+          console.log(query);
+        } else {
+          query = query.eq("bedrooms", Number(searchQuery.bedrooms));
+        }
+      }
+
+      // Handle bathroom filters
+      if (searchQuery?.bathrooms) {
+        if (searchQuery.bathrooms === "6") {
+          query = query.gte("bathrooms", 6);
+        } else {
+          query = query.eq("bathrooms", Number(searchQuery.bathrooms));
+        }
+      }
+      if (
+        !searchQuery?.bathrooms &&
+        !searchQuery?.bedrooms &&
+        !searchQuery?.landSizeMax &&
+        !searchQuery?.landSizeMin 
+      ) {
+        console.log('erer');
+        
+        query = query.or(
+          `name.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,property_name.ilike.%${searchQuery}%`
+        );
+      }
     }
 
     // Fetch properties with the applied filters, sorting, and search query
@@ -463,13 +509,12 @@ export async function getFilteredProperties(
   }
 }
 
-
 export const getFilteredUsers = async (
-  table:string,
+  table: string,
   page: number,
   limit: number,
   sortBy: string,
-  sortOrder = 'asc',
+  sortOrder = "asc",
   filters: Array<{ key: string; value: any }> = [],
   search = null
 ) => {
