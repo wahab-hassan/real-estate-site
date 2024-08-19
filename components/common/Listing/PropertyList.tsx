@@ -107,8 +107,7 @@ const PropertyList = () => {
 
     // Update properties state with the filtered results
     setRecords(filteredProperties);
-    // setTotalRecords(filteredProperties.length);
-    // setIsOpen(false);
+    setIsOpen(false);
   };
 
   const handleNextPage = () => {
