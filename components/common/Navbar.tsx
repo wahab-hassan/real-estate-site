@@ -58,14 +58,13 @@ const Navbar = () => {
 
   return (
     <>
-      
       <nav
         className={`${
           header ? "bg-primary/90 sticky top-0 left-0 " : "absolute top-0"
         } w-full bg-primary/50 z-50 transition-all ease-in-out duration-300 px-4 py-2 flex justify-between items-center`}
       >
         <h2 className="text-white leading-none">
-        비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
+          비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
         </h2>
         <div className="lg:hidden">
           <button
@@ -81,7 +80,7 @@ const Navbar = () => {
               href={"/"}
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-            집
+              집
             </Link>
           </li>
           <li className="text-gray-300">
@@ -106,7 +105,6 @@ const Navbar = () => {
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
               상장
-
             </Link>
           </li>
           <li className="text-gray-300">
@@ -131,15 +129,14 @@ const Navbar = () => {
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
               회사 소개
-
             </Link>
           </li>
         </ul>
-        <div className="flex items-center gap-x-4 mr-4">
+        <div className="hidden lg:flex lg:items-center lg:gap-x-4 lg:mr-4 ">
           <div className="relative inline-block text-left">
             {!isLoggedIn ? (
               <KakaoLogin
-              className="bg-main text-white px-4 py-2 rounded-md hover:opacity-60 transition-all ease-in-out duration-300"
+                className="bg-main text-white px-4 py-2 rounded-md hover:opacity-60 transition-all ease-in-out duration-300"
                 token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
                 onSuccess={(obj: any) => {
                   signIn(
@@ -154,7 +151,8 @@ const Navbar = () => {
               >
                 <div className="flex items-center justify-center text-center p-0 font-medium">
                   {" "}
-                  <BsChat className="text-lg mr-2" /> Login Using KakaoTalk
+                  <BsChat className="text-lg mr-2" />
+                  카카오톡으로 로그인
                 </div>
               </KakaoLogin>
             ) : (
@@ -164,7 +162,7 @@ const Navbar = () => {
                   className="btn btn-secondary py-2  px-3 flex items-center"
                   onClick={() => setdropDown(!dropDown)}
                 >
-                  <LiaUserSolid className="inline text-xl mr-1" /> Account
+                  <LiaUserSolid className="inline text-xl mr-1" /> 계정
                 </button>
                 <div
                   className={`${
@@ -185,7 +183,7 @@ const Navbar = () => {
                     >
                       <span className="flex items-center">
                         {" "}
-                        <BsPerson className="mr-2" /> Account{" "}
+                        <BsPerson className="mr-2" /> 계정{" "}
                       </span>{" "}
                       <BsChevronRight />
                     </Link>
@@ -202,7 +200,7 @@ const Navbar = () => {
                     >
                       <span className="flex items-center">
                         {" "}
-                        <BiExit className="text-lg mr-2" /> Logout{" "}
+                        <BiExit className="text-lg mr-2" /> 로그아웃{" "}
                       </span>{" "}
                       <BsChevronRight className="" />
                     </button>
@@ -220,7 +218,7 @@ const Navbar = () => {
                 : alert("Please Login to add listing");
             }}
           >
-            <LiaHomeSolid className="inline text-xl mr-1" /> Add Listing
+            <LiaHomeSolid className="inline text-xl mr-1" /> 목록 추가
           </button>
         </div>
       </nav>
@@ -241,7 +239,7 @@ const Navbar = () => {
           <div className="w-10/12 mx-auto py-4 ">
             <div className="flex justify-between items-center pb-4 border-b-[1px] border-border/80">
               <h1>
-                ABNB <span className="text-third text-5xl -ml-2">.</span>
+                비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
               </h1>
               <button
                 onClick={() => setOpen(!open)}
@@ -255,23 +253,25 @@ const Navbar = () => {
                 href={"/"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                Home <BsChevronRight />
+                집
+                <BsChevronRight />
               </Link>
               <Link
                 href={"/listing"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                Listing <BsChevronRight />
+                상장 <BsChevronRight />
               </Link>
               <Link
                 href={"/"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                About <BsChevronRight />
+                에 대한
+                <BsChevronRight />
               </Link>
             </div>
 
-            <div className="my-8 border-b-[1px] border-border/80">
+            {/* <div className="my-8 border-b-[1px] border-border/80">
               <h3>Contact Info</h3>
               <ul className="my-7">
                 <li className="flex items-center text-md mb-6">
@@ -293,9 +293,9 @@ const Navbar = () => {
                   support@abnb.com
                 </li>
               </ul>
-            </div>
+            </div> */}
             <div className="my-8 border-b-[1px] border-border/80">
-              <h3>Account</h3>
+              <h3>계정</h3>
               <div className="flex items-center gap-x-3 my-4">
                 {isLoggedIn ? (
                   <>
@@ -303,7 +303,7 @@ const Navbar = () => {
                       href={`/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
-                      Account
+                      계정
                     </Link>
                     <button
                       className="btn btn-outline"
@@ -313,7 +313,7 @@ const Navbar = () => {
                         localStorage.setItem("isLoggedIn", "false");
                       }}
                     >
-                      Sign Out
+                      로그아웃
                     </button>
                   </>
                 ) : (
@@ -333,8 +333,7 @@ const Navbar = () => {
                     >
                       <div className="flex items-center justify-center text-center w-full font-medium">
                         {" "}
-                        <BsChat className="text-lg mr-2" /> Login Using
-                        KakaoTalk
+                        <BsChat className="text-lg mr-2" /> 카카오톡으로 로그인
                       </div>
                     </KakaoLogin>
                   </>
@@ -342,7 +341,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">
-              <h3>Subscribe & Follow</h3>
+              <h3>구독 및 팔로우</h3>
               <div className="flex items-center gap-x-3 my-4">
                 <button className="btn-outline rounded-md w-10 h-10 flex items-center justify-center transition-all ease-in-out duration-300">
                   <LiaFacebookF className="text-2xl" />

@@ -26,6 +26,8 @@ import MapSection from "@/components/common/Listing-Detail/MapSection";
 import ContactForm from "@/components/common/Listing-Detail/ContactForm";
 import { getPropertiesByUser, selectSpecificRecord } from "@/lib/crud";
 import Loader from "@/components/common/Loader";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [property, setproperty]: any = useState();
@@ -72,7 +74,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     </div>
   ) : (
     <>
-      <Navbar2 />
+      <Navbar />
       <main className="w-full pt-48 lg:pt-40">
         <div className="w-10/12 lg:w-11/12 mx-auto h-fit">
           <Carousel
@@ -296,7 +298,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </section>
-      <Footer2 />
+      <Footer />
     </>
   );
 };
