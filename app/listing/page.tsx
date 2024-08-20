@@ -1,5 +1,3 @@
-import Footer2 from "@/components/common/Footer2";
-import Navbar2 from "@/components/common/Navbar2";
 import Link from "next/link";
 import React from "react";
 import { BsFillHouseFill, BsChevronRight } from "react-icons/bs";
