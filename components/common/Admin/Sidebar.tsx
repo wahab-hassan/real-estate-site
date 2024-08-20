@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsChevronRight } from "react-icons/bs";
-import { HiHeart, HiUsers } from "react-icons/hi";
+import { HiHeart, HiOutlineChat, HiUsers } from "react-icons/hi";
 import { HiLockClosed, HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 
@@ -43,6 +43,16 @@ const Sidebar = ({ openSidebar }: any) => {
                 <span className="flex items-center gap-x-2">
                   <HiOutlineBuildingOffice2 />
                   Properties
+                </span>
+                <BsChevronRight />
+              </Link>
+              <Link
+                href={`/admin/messages`}
+                className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
+              >
+                <span className="flex items-center gap-x-2">
+                  <HiOutlineChat />
+                  Messages
                 </span>
                 <BsChevronRight />
               </Link>

@@ -1,6 +1,6 @@
 "use client";
-import Footer2 from "@/components/common/Footer2";
-import Navbar2 from "@/components/common/Navbar2";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import {
   Carousel,
@@ -24,28 +24,119 @@ import { BiBed, BiCabinet, BiHeart, BiShower, BiSwim } from "react-icons/bi";
 import { TbStairs } from "react-icons/tb";
 import MapSection from "@/components/common/Listing-Detail/MapSection";
 import ContactForm from "@/components/common/Listing-Detail/ContactForm";
-import { getPropertiesByUser, selectSpecificRecord } from "@/lib/crud";
+import {
+  createRecord,
+  getFilteredProperties,
+  getPropertiesByUser,
+  readRecords,
+  selectSpecificRecord,
+} from "@/lib/crud";
 import Loader from "@/components/common/Loader";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import Link from "next/link";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [property, setproperty]: any = useState();
   const [images_url, setImages_url]: any = useState([]);
+  const [user, setuser]: any = useState();
   const [isLoading, setisLoading] = useState(true);
+  const [isFavorite, setisFavorite] = useState(false);
+
   useEffect(() => {
     setisLoading(true);
+    setuser(JSON.parse(localStorage.getItem("userData") || "{}"));
     fetchSpecificRecord().then((data: any) => {
       setproperty(data[0]);
       console.log(data);
-      if (data[0].images_urls && data[0].images_urls.length > data[0].uploaded_urls.length) {
+      if (
+        data[0].images_urls &&
+        data[0].images_urls.length > data[0].uploaded_urls.length
+      ) {
         setImages_url(data[0].images_urls);
-      } else if (data[0].uploaded_urls && data[0].images_urls.length < data[0].uploaded_urls.length) {
+      } else if (
+        data[0].uploaded_urls &&
+        data[0].images_urls.length < data[0].uploaded_urls.length
+      ) {
         setImages_url(data[0].uploaded_urls);
       }
       setisLoading(false);
     });
   }, [params.id]);
+
+  useEffect(() => {
+    const inFavorite = async () => {
+      try {
+        const result = await readRecords("favorite", {
+          property_id: property?.id,
+          user_id: user?.id,
+        });
+        return await result;
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    inFavorite().then((val: any) => {
+      if (val?.length > 0) {
+        setisFavorite(true);
+      }
+    });
+  }, [property]);
+
+  const handleFavorite = async () => {
+    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
+
+    if (!userData || !userData.id) {
+      toast.info("Please log in to save this property as a favorite.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    try {
+      // Call the createRecord function to store the favorite data
+      const favoriteData = {
+        user_id: userData.id,
+        property_id: property.id,
+      };
+      await createRecord("favorite", favoriteData);
+
+      toast.success("Property saved as favorite!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setisFavorite(true);
+    } catch (error) {
+      console.error("Error saving favorite property:", error);
+      toast.error("Error saving favorite property.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+  };
 
   const fetchSpecificRecord = async () => {
     try {
@@ -84,10 +175,10 @@ const Page = ({ params }: { params: { id: string } }) => {
             }}
           >
             <CarouselContent>
-              {images_url?.map((image: any, index:any) => {
+              {images_url?.map((image: any, index: any) => {
                 return (
                   <CarouselItem
-                  key={index}
+                    key={index}
                     className={` ${
                       property.images_urls.length > 3
                         ? "md:basis-1/2 lg:basis-1/3"
@@ -110,7 +201,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </Carousel>
         </div>
       </main>
-      <section className="w-full my-10">
+      <section className="w-full mt-10 pb-32">
         <div className="w-11/12 mx-auto grid grid-cols-1  lg:w-11/12 xl:w-9/12 lg:grid-cols-6 gap-4">
           <div className="col-span-1 lg:col-span-4">
             <div className="block mt-10 mb-8 leading-loose border-b border-border/50 pb-5">
@@ -240,7 +331,9 @@ const Page = ({ params }: { params: { id: string } }) => {
                   <TbStairs className="icon mr-2" />
                   <span className=" flex flex-col">
                     {property?.levels}
-                    <span className="opacity-60 text-[12px] -mt-2">Levels</span>{" "}
+                    <span className="opacity-60 text-[12px] -mt-2">
+                      Levels
+                    </span>{" "}
                   </span>
                 </span>
                 {/* <span className="capitalize font-medium border rounded-md w-40 border-border/50 px-3 py-2 flex items-center">
@@ -277,21 +370,33 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </div>
                 </div>
                 <div className="flex items-center flex-wrapc gap-3 border-b border-border/50 pb-4 mb-4">
-                  <button className="btn btn-outline w-full">
+                  <Link
+                    className="btn btn-outline text-center w-full"
+                    href={"/contact"}
+                  >
                     Get a Quote
-                  </button>
+                  </Link>
                   <div className="flex items-center">
-                    <button
-                      className="btn btn-outline px-3 py-3 hover:bg-red-500"
-                      title="Add to Favorites"
-                    >
-                      <BiHeart />
-                    </button>
+                    {user !== null && (
+                      <button
+                        className={`btn btn-outline px-3 py-3  ${
+                          isFavorite
+                            ? "bg-red-500 text-white hover:bg-white hover:text-red-500"
+                            : "hover:bg-red-500"
+                        } `}
+                        title="Add to Favorites"
+                        onClick={handleFavorite}
+                      >
+                        <BiHeart />
+                      </button>
+                    )}
                   </div>
                 </div>
                 <div className="block">
                   <h4>Get In Touch</h4>
-                  <ContactForm />
+                  <ContactForm
+                    recordData={{ id: property.id, name: property.name }}
+                  />
                 </div>
               </div>
             </div>

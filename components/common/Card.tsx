@@ -1,4 +1,3 @@
-import { createRecord } from "@/lib/crud";
 import Link from "next/link";
 import React from "react";
 import { BsArrowRight, BsHeart } from "react-icons/bs";
@@ -6,64 +5,11 @@ import { BsArrowRight, BsHeart } from "react-icons/bs";
 import { IoBedOutline, IoExpand } from "react-icons/io5";
 import { LuShowerHead } from "react-icons/lu";
 import { MdStairs } from "react-icons/md";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Card = (props: any) => {
   const property = props.property;
 
-  const handleFavorite = async () => {
-    const userData = JSON.parse(localStorage.getItem("userData") || "{}");
-
-    if (!userData || !userData.id) {
-      toast.info("Please log in to save this property as a favorite.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-      return;
-    }
-
-    try {
-      // Call the createRecord function to store the favorite data
-      const favoriteData = {
-        user_id: userData.id,
-        property_id: property.id,
-      };
-      const createdRecord = await createRecord("favorite", favoriteData);
-
-      toast.success("Property saved as favorite!", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    } catch (error) {
-      console.error("Error saving favorite property:", error);
-      toast.error("Error saving favorite property.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    }
-  };
   return (
     <>
       <div
@@ -126,15 +72,7 @@ const Card = (props: any) => {
           >
             Get Contact Info <BsArrowRight className="text-lg" />
           </Link>
-          {localStorage.getItem("userData") && (
-            <button
-              className="btn btn-outline rounded-full border border-border/40 p-3"
-              onClick={handleFavorite}
-              title="Favorite"
-            >
-              <BsHeart />
-            </button>
-          )}
+          
         </div>
       </div>
     </>

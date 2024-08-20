@@ -90,6 +90,15 @@ export async function getTotalUsers(table: string) {
   return count;
 }
 
+export async function getTotalMessages(table: string) {
+  const { count, error } = await supabase
+    .from(table)
+    .select("*", { count: "exact", head: true })
+
+  if (error) throw error;
+  return count;
+}
+
 export async function selectSpecificRecord(table: any, conditions: any) {
   let query = supabase.from(table).select("*");
 

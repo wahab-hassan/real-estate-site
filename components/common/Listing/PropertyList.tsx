@@ -158,31 +158,31 @@ const PropertyList = () => {
   var propertyTypes: any = [
     {
       name: "Villa",
-      value:'villa',
+      value: "villa",
       count: 100,
       checked: false,
     },
     {
       name: "Apartment",
-      value:'apartment',
+      value: "apartment",
       count: 100,
       checked: false,
     },
     {
       name: "Land",
-      value:'land',
+      value: "land",
       count: 100,
       checked: false,
     },
     {
       name: "Hotel/Villa Complex",
-      value:'hotel',
+      value: "hotel",
       count: 100,
       checked: false,
     },
     {
       name: "Commercial",
-      value:'commercial',
+      value: "commercial",
       count: 100,
       checked: false,
     },
@@ -241,7 +241,7 @@ const PropertyList = () => {
   };
   return (
     <>
-      <section className="py-10">
+      <section className="py-10 pb-32">
         <div className="w-full mx-auto block gap-x-5">
           <div className="w-9/12 mx-auto col-span-6 ">
             <div className="flex items-center justify-between ">
@@ -345,7 +345,7 @@ const PropertyList = () => {
           >
             <div className="overflow-auto rounded-md h-4/6 mx-auto shadow-lg w-8/12 px-8 py-10 shadow-black/40 my-32 bg-white ">
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5 ">
-                <h3 className="font-bold">Filters</h3>
+                <h3 className="font-bold">필터</h3>
                 <div className="flex gap-x-2 mt-3">
                   <button
                     className="btn btn-outline px-2 font-semibold text-sm py-1 "
@@ -360,13 +360,15 @@ const PropertyList = () => {
                       fetchRecords(page, limit);
                     }}
                   >
-                    Clear All {">"}
+                    모두 지우기
+                    {">"}
                   </button>
                   <button
                     className="btn btn-outline px-2 font-semibold text-sm py-1 "
                     onClick={handlefilters}
                   >
-                    Show filtered options {">"}
+                    필터링된 옵션 표시
+                    {">"}
                   </button>
                 </div>
               </div>
@@ -394,7 +396,7 @@ const PropertyList = () => {
                 </div>
               </div> */}
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>Land Size</h4>
+                <h4>토지 크기</h4>
                 <div className="flex items-center justify-between gap-x-2 my-3">
                   <div className="w-full">
                     <input
@@ -430,7 +432,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>OwnerShip Type</h4>
+                <h4>소유자 유형</h4>
                 <div className="flex items-center flex-wrap my-3">
                   {ownerShip.map((type: any, index: number) => (
                     <span
@@ -451,7 +453,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>Bedroom</h4>
+                <h4>침실</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
                     <span
@@ -514,7 +516,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>Bathrooms</h4>
+                <h4>욕실</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
                     <span
@@ -577,7 +579,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>Property type</h4>
+                <h4>부동산 유형</h4>
                 <ul className="w-full mt-5 space-y-3">
                   {propertyTypes.map((type: any, index: any) => {
                     return (

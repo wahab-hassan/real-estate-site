@@ -125,10 +125,10 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href={"/"}
+              href={"/contact"}
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              회사 소개
+              연락하다
             </Link>
           </li>
         </ul>
@@ -263,10 +263,10 @@ const Navbar = () => {
                 상장 <BsChevronRight />
               </Link>
               <Link
-                href={"/"}
+                href={"/contact"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                에 대한
+                연락하다
                 <BsChevronRight />
               </Link>
             </div>
