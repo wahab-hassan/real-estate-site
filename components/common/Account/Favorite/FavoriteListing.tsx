@@ -24,7 +24,6 @@ const FavoriteListing = () => {
   const [limit, setLimit] = useState(5); // Default number of records per page
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    console.log(page, limit);
 
     fetchRecords(page, limit);
   }, [page, limit]);

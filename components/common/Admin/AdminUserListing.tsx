@@ -148,7 +148,6 @@ const AdminUserListing = () => {
     setLoading(true);
     try {
       const data: any = await getFilteredUsers('adminusers',page, limit, sortBy, sortOrder,[],null);
-      console.log(data.data);
       
       setUsers(data.data);
     } catch (error) {

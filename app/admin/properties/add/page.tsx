@@ -1,8 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
-import Footer2 from "@/components/common/Footer2";
-import Navbar2 from "@/components/common/Navbar2";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { Select } from "@headlessui/react";
 import { BsChevronDown } from "react-icons/bs";
@@ -152,8 +150,7 @@ const Page = () => {
           setUploadedUrls(urls);
 
           data.images_urls = urls;
-          console.log(urls);
-          console.log(data);
+
           storePropertyData(data, rent, sell).then((response: any) => {
             console.log("Property data stored successfully:", response);
             setisLoading(false);
@@ -260,7 +257,6 @@ const Page = () => {
                       placeholder="Phone Number"
                       value={phoneNumber}
                       onChange={(e: any) => {
-                        console.log(e);
                         setPhoneNumber(e);
                       }}
                     />

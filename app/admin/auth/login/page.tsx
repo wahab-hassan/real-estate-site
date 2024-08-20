@@ -18,7 +18,6 @@ const Page = () => {
     try {
       const result = await adminSignIn(email, password);
       // Handle successful signup (e.g., redirect or show a success message)
-      console.log(result);
       if (result.success) {
         // User exists, store their data in localStorage
         toast.success("Login successful", {

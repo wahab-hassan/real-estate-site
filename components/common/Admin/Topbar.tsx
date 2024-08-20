@@ -10,7 +10,6 @@ const Topbar = ({ openSidebar }: any) => {
 
   useEffect(() => {
     setUser(JSON.parse(localStorage.getItem("adminData")!));
-    console.log(user);
   }, []);
 
   const logout = async () => {

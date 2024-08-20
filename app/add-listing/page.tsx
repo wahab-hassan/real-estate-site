@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "react-phone-number-input/style.css";
-import Footer2 from "@/components/common/Footer2";
-import Navbar2 from "@/components/common/Navbar2";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { Select } from "@headlessui/react";
 import { BsChevronDown } from "react-icons/bs";
@@ -12,6 +10,8 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "@/components/common/Loader";
 import { amenities } from "@/lib/data/dropdownData";
+import Navbar from "@/components/common/Navbar";
+import Footer from "@/components/common/Footer";
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -143,8 +143,7 @@ const Page = () => {
           setUploadedUrls(urls);
   
           data.images_urls = urls;
-          console.log(urls);
-          console.log(data);
+
           storePropertyData(data, rent, sell).then((response: any) => {
             console.log("Property data stored successfully:", response);
             setisLoading(false);
@@ -189,8 +188,8 @@ const Page = () => {
     </div>
   ) : (
     <>
-      <Navbar2 />
-      <main className="w-full pt-52">
+      <Navbar />
+      <main className="w-full py-52">
         <div className="text-center w-full">
           <h2>Listing Form</h2>
           <p>Fill this form and our manager will get back to you shortly.</p>
@@ -225,7 +224,6 @@ const Page = () => {
                 placeholder="Phone Number"
                 value={phoneNumber}
                 onChange={(e: any) => {
-                  console.log(e);
                   setPhoneNumber(e);
                 }}
               />
@@ -1062,7 +1060,7 @@ const Page = () => {
         </div>
       </main>
       <ToastContainer />
-      <Footer2 />
+      <Footer />
     </>
   );
 };

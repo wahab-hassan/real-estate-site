@@ -158,7 +158,6 @@ const MessagesListing = () => {
         [],
         null
       );
-      console.log(data.data);
 
       setUsers(data.data);
     } catch (error) {
@@ -177,7 +176,6 @@ const MessagesListing = () => {
     if (isConfirm) {
       let newUser = { ...user, is_read: !user.is_read };
       const { id, ...updatedUser } = newUser;
-      console.log(newUser, id, updatedUser);
 
       updateRecord("messages", user.id, updatedUser).then(() => {
         toast.success(

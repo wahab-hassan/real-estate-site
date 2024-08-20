@@ -22,12 +22,7 @@ const ProfileForm = () => {
   const handleUpdate = async () => {
     // setLoading(true);
     try {
-      console.log({
-        name: name,
-        email: email,
-        phone: phone,
-        role: role,
-      });
+      
 
       updateRecord("users", param.id, {
         name: name,
@@ -35,9 +30,7 @@ const ProfileForm = () => {
         phone: phone,
         role: role,
       }).then((updatedData) => {
-        console.log(updatedData);
         // Handle successful signup (e.g., redirect or show a success message)
-        console.log(updatedData);
         setLoading(false);
         toast.success("Profile Updated successfully", {
           position: "bottom-right",
@@ -73,7 +66,6 @@ const ProfileForm = () => {
 
     const fetchUser = async () => {
       try {
-        console.log(param);
 
         const userData: any = await readRecords(
           "users",
@@ -81,7 +73,6 @@ const ProfileForm = () => {
           1,
           1
         );
-        console.log(userData);
 
         setEmail(userData[0]?.email);
         setName(userData[0]?.name);

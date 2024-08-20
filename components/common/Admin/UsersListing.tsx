@@ -154,7 +154,6 @@ const UsersListing = () => {
         [],
         null
       );
-      console.log(data.data);
 
       setUsers(data.data);
     } catch (error) {

@@ -48,7 +48,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     setuser(JSON.parse(localStorage.getItem("userData") || "{}"));
     fetchSpecificRecord().then((data: any) => {
       setproperty(data[0]);
-      console.log(data);
       if (
         data[0].images_urls &&
         data[0].images_urls.length > data[0].uploaded_urls.length

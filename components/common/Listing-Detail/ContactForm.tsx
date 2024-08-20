@@ -48,7 +48,6 @@ const ContactForm = ({ recordData }: any) => {
 
     try {
       // Save the data to the database
-      console.log(dataToSave);
       
       await createRecord("messages", dataToSave);
 

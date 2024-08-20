@@ -9,7 +9,6 @@ export async function signUp(
 ) {
   const result = await supabase.auth.signUp({ email, password });
   if (result.error) throw result.error;
-  console.log(result);
 
   // Insert additional user data into the users table
   const { data, error: insertError } = await supabase
@@ -29,7 +28,6 @@ export async function signUp(
 }
 
 export async function signIn(userId: any, userName: any) {
-  console.log(userId, userName);
 
   // Check if user with the given ID exists
   const data: any = await supabase
@@ -43,7 +41,6 @@ export async function signIn(userId: any, userName: any) {
     throw data.error;
   }
 
-  console.log(data);
 
   if (!data.data) {
     // User does not exist, insert the new user
@@ -84,7 +81,6 @@ export async function adminSignIn(email: any, password: any) {
       });
 
     if (signInError) throw signInError;
-    console.log(signInData);
 
     const { user } = signInData;
 
@@ -95,7 +91,6 @@ export async function adminSignIn(email: any, password: any) {
       .eq("id", user.id)
       .single(); // Assuming user IDs are unique
 
-    console.log(userData);
     if (userError) throw userError;
 
     // Step 3: Verify the user's role
@@ -129,7 +124,6 @@ export async function signOut() {
 
 export function handleKakaoLogout() {
   window.Kakao.Auth.logout((err: any) => {
-    console.log(err);
     localStorage.removeItem("userData");
     localStorage.removeItem("adminData");
     localStorage.setItem("isLoggedIn", "false");

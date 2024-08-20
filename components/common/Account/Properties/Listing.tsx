@@ -24,7 +24,6 @@ const Listing = () => {
   const [limit, setLimit] = useState(5); // Default number of records per page
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    console.log(page, limit);
 
     fetchRecords(page, limit);
   }, [page, limit]);
@@ -61,7 +60,6 @@ const Listing = () => {
 
   const getCount = async () => {
     const count: any = await getTotalRecords("property");
-    console.log(count);
 
     setTotalRecords(count);
   };

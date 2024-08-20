@@ -36,7 +36,6 @@ const PropertyList = () => {
 
   const getCount = async () => {
     const count: any = await getTotalRecords("property");
-    console.log(count);
 
     setTotalRecords(count);
   };
@@ -60,7 +59,6 @@ const PropertyList = () => {
           },
         ]
       );
-      console.log(data);
 
       setRecords(data);
     } catch (error) {
@@ -92,7 +90,6 @@ const PropertyList = () => {
     if (selectedPropertyType && selectedPropertyType.length > 0) {
       filters.push({ key: "property_type", value: selectedPropertyType });
     }
-    console.log(filters);
 
     // Fetch filtered properties
     const filteredProperties: any = await getFilteredProperties(
@@ -103,7 +100,6 @@ const PropertyList = () => {
       filters,
       search
     );
-    console.log(filteredProperties);
 
     // Update properties state with the filtered results
     setRecords(filteredProperties);

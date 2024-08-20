@@ -6,9 +6,7 @@ const migrateData = async () => {
   const propertiesToInsert = airtableProperties.map((value) =>
     convertToDbFormat(value)
   );
-  console.log("====================================");
-  console.log(airtableProperties);
-  console.log("====================================");
+
   try {
     const { data, error } = await supabase
       .from("properties")
@@ -16,7 +14,6 @@ const migrateData = async () => {
     if (error) {
       console.error("Error inserting data:", error);
     } else {
-      console.log("Data inserted successfully:", data);
     }
   } catch (error) {
     console.error("Error during migration:", error);

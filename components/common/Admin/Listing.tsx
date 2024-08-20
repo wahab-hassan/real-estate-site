@@ -98,7 +98,6 @@ const Listing = () => {
 
   const getCount = async () => {
     const count: any = await getTotalRecords("property");
-    console.log(count);
 
     setTotalRecords(count);
   };
@@ -219,9 +218,7 @@ const Listing = () => {
           transition: Bounce,
         });
       });
-      fetchRecords(page, limit);
-      console.log(records);
-      
+      fetchRecords(page, limit);      
     }
   };
 

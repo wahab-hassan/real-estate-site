@@ -118,7 +118,6 @@ export const storePropertyData = async (
   sell: any
 ) => {
   try {
-    console.log(property, rent, sell);
 
     let rentalId = null;
     let sellableId = null;
@@ -189,7 +188,6 @@ export async function getPropertiesByUser(
     // Calculate the starting index based on the page and limit
     const from = (page - 1) * limit;
     const to = from + limit - 1;
-    console.log(condition);
 
     // Fetch properties created by the specified user with pagination
     const propertiesData: any = await supabase
@@ -198,7 +196,6 @@ export async function getPropertiesByUser(
       .eq(condition.key, String(condition.value))
       .range(from, to);
 
-    console.log(propertiesData);
 
     if (propertiesData.error) throw propertiesData.error;
 
@@ -304,7 +301,6 @@ export const updatePropertyData = async (
   sell: any
 ) => {
   try {
-    console.log("Updating property:", property, rent, sell);
 
     let rentalId = property.rental_id || null;
     let sellableId = property.sellable_id || null;
@@ -427,8 +423,6 @@ export async function getFilteredProperties(
 
     // Apply search queries if provided
     if (searchQuery) {
-      console.log(searchQuery);
-
       // Handle land size filters
       if (searchQuery?.landSizeMin && searchQuery?.landSizeMax) {
         query = query
@@ -444,7 +438,6 @@ export async function getFilteredProperties(
       if (searchQuery?.bedrooms) {
         if (searchQuery.bedrooms === "6") {
           query = query.gte("bedrooms", 6);
-          console.log(query);
         } else {
           query = query.eq("bedrooms", Number(searchQuery.bedrooms));
         }
@@ -464,7 +457,6 @@ export async function getFilteredProperties(
         !searchQuery?.landSizeMax &&
         !searchQuery?.landSizeMin 
       ) {
-        console.log('erer');
         
         query = query.or(
           `name.ilike.%${searchQuery}%,email.ilike.%${searchQuery}%,property_name.ilike.%${searchQuery}%`

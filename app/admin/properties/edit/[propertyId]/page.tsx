@@ -82,7 +82,6 @@ const Page = () => {
   };
   useEffect(() => {
     setisLoading(true);
-    console.log(propertyId, router);
     if (propertyId) {
       fetchPropertyData(propertyId);
     } else {
@@ -99,7 +98,6 @@ const Page = () => {
         1,
         1
       );
-      console.log(data);
 
       setPropertyData(data[0]);
 
@@ -126,7 +124,6 @@ const Page = () => {
         setPreviewUrls(data[0]?.images_urls);
         setImagesUrls(data[0]?.images_urls);
         setUploadedUrls(data[0]?.images_urls);
-        console.log(data[0]?.images_urls);
       }
       if (data[0]?.property_description)
         setPropertyDescription(data[0]?.property_description);
@@ -354,7 +351,6 @@ const Page = () => {
                       placeholder="Phone Number"
                       value={phoneNumber}
                       onChange={(e: any) => {
-                        console.log(e);
                         setPhoneNumber(e);
                       }}
                     />
