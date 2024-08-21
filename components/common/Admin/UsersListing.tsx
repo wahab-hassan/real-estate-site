@@ -17,7 +17,7 @@ import {
 } from "react-icons/bs";
 import Loader from "../Loader";
 import { useParams, usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BiSort } from "react-icons/bi";

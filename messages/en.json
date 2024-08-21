@@ -1,0 +1,54 @@
+{
+    "Navbar": {
+        "logo": "BnB Market",
+        "nav1": "Home",
+        "nav2": "Listings",
+        "nav3": "Contact",
+        "loginBtn": "Login with KakaoTalk",
+        "accountBtn": "Account",
+        "accountDDbtn": "Account",
+        "signoutBtn": "Sign Out",
+        "addListingBtn": "Add Listing",
+        "followLink": "Subscribe & Follow"
+    },
+    "Footer": {
+        "title": "BnB Market"
+    },
+    "HomePage": {
+        "mainTitle": "The Perfect Vacation Awaits.",
+        "subTitle": "Listings",
+        "listingTitle": "Recommended Listings",
+        "aboutSubTitle": "About Us",
+        "aboutTitle": "Providing Overseas AIRBNB Properties",
+        "aboutContent": "Due to increasing regulations on domestic Airbnb, foreign city guesthouses, and short-term rental businesses, we have expanded our view overseas. We provide Airbnb listings in Japan, Vietnam, the United States, Bali, and various other countries.",
+        "aboutList1": "Approved Listings",
+        "aboutList2": "Monthly/Annual Rent",
+        "aboutList3": "Contact Real Estate Agent Directly!",
+        "aboutBtn": "Explore"
+    },
+    "ListingPage": {
+        "title": "Properties",
+        "link1": "Home",
+        "link2": "Properties",
+        "filterTitle": "Filters",
+        "filterbtn1": "Clear All",
+        "filterbtn2": "Show Filtered Options",
+        "landSize": "Land Size",
+        "ownerShip": "Ownership Type",
+        "bedroom": "Bedrooms",
+        "bathroom": "Bathrooms",
+        "propertyType": "Property Type"
+    },
+    "ContactPage": {
+        "title": "Contact Us",
+        "content": "Not sure what to do? Let us know if you need help.",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "message": "Your Message",
+        "contactBtn": "Send Message",
+        "error": "Please fill out all fields.",
+        "success": "Your message has been successfully submitted. Our agent will contact you shortly.",
+        "error2": "There was an error submitting your message. Please try again."
+    }
+}

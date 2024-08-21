@@ -1,6 +1,6 @@
 "use client";
 import { signOut } from "@/lib/auth";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsChevronRight } from "react-icons/bs";

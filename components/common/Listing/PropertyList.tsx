@@ -12,8 +12,10 @@ import {
 } from "@/lib/crud";
 import Card from "../Card";
 import Loader from "../Loader";
+import { useTranslations } from "next-intl";
 
 const PropertyList = () => {
+  const t = useTranslations("ListingPage");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPropertyType, setselectedPropertyType]: any = useState([]);
   const [selectedLocations, setselectedLocations]: any = useState([]);
@@ -256,7 +258,8 @@ const PropertyList = () => {
                   className="btn btn-outline p-2 rounded-none"
                   onClick={() => setIsOpen(!isOpen)}
                 >
-                  <BiFilterAlt className="text-xl inline-block mr-3" /> Filters
+                  <BiFilterAlt className="text-xl inline-block mr-3" />{" "}
+                  {t("filterTitle")}
                 </button>
               </div>
             </div>
@@ -341,7 +344,7 @@ const PropertyList = () => {
           >
             <div className="overflow-auto rounded-md h-4/6 mx-auto shadow-lg w-8/12 px-8 py-10 shadow-black/40 my-32 bg-white ">
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5 ">
-                <h3 className="font-bold">필터</h3>
+                <h3 className="font-bold">{t("filterTitle")}</h3>
                 <div className="flex gap-x-2 mt-3">
                   <button
                     className="btn btn-outline px-2 font-semibold text-sm py-1 "
@@ -356,43 +359,21 @@ const PropertyList = () => {
                       fetchRecords(page, limit);
                     }}
                   >
-                    모두 지우기
+                    {t("filterbtn1")}
                     {">"}
                   </button>
                   <button
                     className="btn btn-outline px-2 font-semibold text-sm py-1 "
                     onClick={handlefilters}
                   >
-                    필터링된 옵션 표시
+                    {t("filterbtn2")}
                     {">"}
                   </button>
                 </div>
               </div>
-              {/* <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>Price Range</h4>
-                <div className="flex items-center justify-between gap-x-2 my-3">
-                  <div className="w-full">
-                    <input
-                      type="number"
-                      min={0}
-                      max={10000000}
-                      placeholder="$ 0"
-                      className="bg-white border border-border/40 rounded-sm w-full py-2 pl-2 text-sm focus:outline-none"
-                    />
-                  </div>
-                  <div className="w-full">
-                    <input
-                      type="number"
-                      min={0}
-                      max={10000000}
-                      placeholder="$ 10 000 000"
-                      className="bg-white border border-border/40 rounded-sm w-full py-2 pl-2 text-sm focus:outline-none"
-                    />
-                  </div>
-                </div>
-              </div> */}
+
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>토지 크기</h4>
+                <h4>{t("landSize")}</h4>
                 <div className="flex items-center justify-between gap-x-2 my-3">
                   <div className="w-full">
                     <input
@@ -428,7 +409,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>소유자 유형</h4>
+                <h4>{t("ownership")}</h4>
                 <div className="flex items-center flex-wrap my-3">
                   {ownerShip.map((type: any, index: number) => (
                     <span
@@ -449,7 +430,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>침실</h4>
+                <h4>{t("bedroom")}</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
                     <span
@@ -512,7 +493,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>욕실</h4>
+                <h4>{t("bathroom")}</h4>
                 <div className="flex items-center flex-wrap my-3">
                   <div className="flex items-center justify-between border border-border/40 rounded-md w-full">
                     <span
@@ -575,7 +556,7 @@ const PropertyList = () => {
                 </div>
               </div>
               <div className="w-full border-b border-border/50 rounded-sm pb-6 mb-5">
-                <h4>부동산 유형</h4>
+                <h4>{t("propertyType")}</h4>
                 <ul className="w-full mt-5 space-y-3">
                   {propertyTypes.map((type: any, index: any) => {
                     return (
@@ -617,49 +598,6 @@ const PropertyList = () => {
                   })}
                 </ul>
               </div>
-              {/* <div className="w-full border-b border-border/50 rounded-sm pb-6">
-                <h4>Location</h4>
-                <ul className="w-full mt-5 space-y-3">
-                  {southKoreanLocations.map((location: any, index: any) => {
-                    return (
-                      <li
-                        key={index}
-                        className="flex items-center justify-between gap-x-2 text-dark/90 text-[16px]"
-                      >
-                        <span className="flex items-center gap-x-2">
-                          <span
-                            className={`${
-                              selectedLocations.includes(location.location)
-                                ? "bg-dark text-light hover:opacity-60"
-                                : "hover:bg-light"
-                            } rounded flex justify-center items-center w-8 border-[1px] h-8 px-2  border-border/30 mr-4  transition-all ease-in-out duration-300`}
-                            onClick={() => {
-                              setLocationValue(location.location);
-                            }}
-                          >
-                            <BsPlus
-                              className={`${
-                                selectedLocations.includes(location.location)
-                                  ? "hidden"
-                                  : "hover:bg-light"
-                              } text-lg`}
-                            />
-                            <BiMinus
-                              className={`${
-                                selectedLocations.includes(location.location)
-                                  ? "bg-dark text-light hover:opacity-60"
-                                  : "hidden"
-                              } text-lg`}
-                            />
-                          </span>
-                          {location.location}
-                        </span>
-                        <span>{location.location}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div> */}
             </div>
           </div>
         </div>

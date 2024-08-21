@@ -5,8 +5,10 @@ import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { toast, Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-phone-number-input/style.css";
+import { useTranslations } from "next-intl";
 
 const ContactForm = () => {
+  const t = useTranslations('ContactPage')
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -18,7 +20,7 @@ const ContactForm = () => {
 
     // Basic validation
     if (!name || !email || !phone || !message) {
-      toast.error("모든 필드를 입력하십시오.", {
+      toast.error(t('error'), {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -38,7 +40,7 @@ const ContactForm = () => {
       await createRecord("messages", { name, email, phone, message });
 
       toast.info(
-        "귀하의 메시지가 성공적으로 제출되었습니다. 우리 에이전트가 곧 연락을 드릴 것입니다",
+        t('success'),
         {
           position: "bottom-right",
           autoClose: 5000,
@@ -59,7 +61,7 @@ const ContactForm = () => {
       setMessage("");
     } catch (error) {
       toast.error(
-        "메시지를 제출하는 동안 오류가 발생했습니다. 다시 시도해 주세요.",
+        t('error2'),
         {
           position: "bottom-right",
           autoClose: 5000,
@@ -84,7 +86,7 @@ const ContactForm = () => {
           htmlFor="name"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          이름
+          {t('name')}
         </label>
         <input
           type="text"
@@ -92,7 +94,7 @@ const ContactForm = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="shadow-sm  border border-border/40  text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-          placeholder="이름...."
+          placeholder={t('name')}
           required
         />
       </div>
@@ -101,7 +103,7 @@ const ContactForm = () => {
           htmlFor="email"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          이메일
+          {t('email')}
         </label>
         <input
           type="email"
@@ -118,7 +120,7 @@ const ContactForm = () => {
           htmlFor="subject"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          전화 번호
+          {t('phone')}
         </label>
         <PhoneInputWithCountrySelect
           id="subject"
@@ -134,7 +136,7 @@ const ContactForm = () => {
           htmlFor="message"
           className="block mb-2 text-sm font-medium  dark:text-gray-400"
         >
-          귀하의 메시지
+          {t('message')}
         </label>
         <textarea
           id="message"
@@ -150,7 +152,7 @@ const ContactForm = () => {
         className="btn btn-secondary w-full"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "제출 중..." : "메시지 보내기"}
+        {isSubmitting ? "제출 중..." : t('contactBtn')}
       </button>
       <ToastContainer />
     </form>

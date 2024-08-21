@@ -15,14 +15,18 @@ import {
 } from "react-icons/lia";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { useRouter } from "next/navigation";
 import { handleKakaoLogout, signIn, signOut } from "@/lib/auth";
 import KakaoLogin from "react-kakao-login";
 import KakaoLoginButton from "./KakaoLoginButton";
 import { BiExit } from "react-icons/bi";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 const Navbar = () => {
+  const n = useTranslations("Navbar");
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [header, setheader] = useState(false);
@@ -64,7 +68,7 @@ const Navbar = () => {
         } w-full bg-primary/50 z-50 transition-all ease-in-out duration-300 px-4 py-2 flex justify-between items-center`}
       >
         <h2 className="text-white leading-none">
-          비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
+          {n("logo")} <span className="text-third text-5xl -ml-2">.</span>
         </h2>
         <div className="lg:hidden">
           <button
@@ -80,7 +84,7 @@ const Navbar = () => {
               href={"/"}
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              집
+              {n("nav1")}
             </Link>
           </li>
           <li className="text-gray-300">
@@ -104,7 +108,7 @@ const Navbar = () => {
               href={"/listing"}
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              상장
+              {n("nav2")}
             </Link>
           </li>
           <li className="text-gray-300">
@@ -128,7 +132,7 @@ const Navbar = () => {
               href={"/contact"}
               className="text-white text-sm font-medium hover:underline hover:text-third transition-all ease-in-out duration-100"
             >
-              연락하다
+              {n("nav3")}
             </Link>
           </li>
         </ul>
@@ -152,7 +156,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-center text-center p-0 font-medium">
                   {" "}
                   <BsChat className="text-lg mr-2" />
-                  카카오톡으로 로그인
+                  {n("loginBtn")}
                 </div>
               </KakaoLogin>
             ) : (
@@ -162,7 +166,8 @@ const Navbar = () => {
                   className="btn btn-secondary py-2  px-3 flex items-center"
                   onClick={() => setdropDown(!dropDown)}
                 >
-                  <LiaUserSolid className="inline text-xl mr-1" /> 계정
+                  <LiaUserSolid className="inline text-xl mr-1" />{" "}
+                  {n("accountBtn")}
                 </button>
                 <div
                   className={`${
@@ -183,7 +188,7 @@ const Navbar = () => {
                     >
                       <span className="flex items-center">
                         {" "}
-                        <BsPerson className="mr-2" /> 계정{" "}
+                        <BsPerson className="mr-2" /> {n("accountDDbtn")}{" "}
                       </span>{" "}
                       <BsChevronRight />
                     </Link>
@@ -200,7 +205,7 @@ const Navbar = () => {
                     >
                       <span className="flex items-center">
                         {" "}
-                        <BiExit className="text-lg mr-2" /> 로그아웃{" "}
+                        <BiExit className="text-lg mr-2" /> {n("signoutBtn")}{" "}
                       </span>{" "}
                       <BsChevronRight className="" />
                     </button>
@@ -218,8 +223,10 @@ const Navbar = () => {
                 : alert("Please Login to add listing");
             }}
           >
-            <LiaHomeSolid className="inline text-xl mr-1" /> 목록 추가
+            <LiaHomeSolid className="inline text-xl mr-1" />{" "}
+            {n("addListingBtn")}
           </button>
+          <LanguageSwitcher />
         </div>
       </nav>
 
@@ -239,7 +246,7 @@ const Navbar = () => {
           <div className="w-10/12 mx-auto py-4 ">
             <div className="flex justify-between items-center pb-4 border-b-[1px] border-border/80">
               <h1>
-                비앤비마켓 <span className="text-third text-5xl -ml-2">.</span>
+                {n("logo")} <span className="text-third text-5xl -ml-2">.</span>
               </h1>
               <button
                 onClick={() => setOpen(!open)}
@@ -253,49 +260,26 @@ const Navbar = () => {
                 href={"/"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                집
+                {n("nav1")}
                 <BsChevronRight />
               </Link>
               <Link
                 href={"/listing"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                상장 <BsChevronRight />
+                {n("nav2")} <BsChevronRight />
               </Link>
               <Link
                 href={"/contact"}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
               >
-                연락하다
+                {n("nav3")}
                 <BsChevronRight />
               </Link>
             </div>
 
-            {/* <div className="my-8 border-b-[1px] border-border/80">
-              <h3>Contact Info</h3>
-              <ul className="my-7">
-                <li className="flex items-center text-md mb-6">
-                  <span className="border-[1px] border-border/20 p-2 rounded-full mr-4">
-                    <LiaMapMarkerAltSolid className="icon" />
-                  </span>{" "}
-                  1426 Center StreetBend, 97702, California, USA
-                </li>
-                <li className="flex items-center text-md mb-6">
-                  <span className="border-[1px] border-border/20 p-2 rounded-full mr-4">
-                    <LiaPhoneSolid className="icon" />
-                  </span>{" "}
-                  +415-864-8728-99
-                </li>
-                <li className="flex items-center text-md mb-6">
-                  <span className="border-[1px] border-border/20 p-2 rounded-full mr-4">
-                    <LiaEnvelope className="icon" />
-                  </span>{" "}
-                  support@abnb.com
-                </li>
-              </ul>
-            </div> */}
             <div className="my-8 border-b-[1px] border-border/80">
-              <h3>계정</h3>
+              <h3>{n('accountBtn')}</h3>
               <div className="flex items-center gap-x-3 my-4">
                 {isLoggedIn ? (
                   <>
@@ -303,7 +287,7 @@ const Navbar = () => {
                       href={`/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
-                      계정
+                      {n('accountDDbtn')}
                     </Link>
                     <button
                       className="btn btn-outline"
@@ -313,7 +297,7 @@ const Navbar = () => {
                         localStorage.setItem("isLoggedIn", "false");
                       }}
                     >
-                      로그아웃
+                      {n('signoutBtn')}
                     </button>
                   </>
                 ) : (
@@ -333,7 +317,7 @@ const Navbar = () => {
                     >
                       <div className="flex items-center justify-center text-center w-full font-medium">
                         {" "}
-                        <BsChat className="text-lg mr-2" /> 카카오톡으로 로그인
+                        <BsChat className="text-lg mr-2" /> {n('loginBtn')}
                       </div>
                     </KakaoLogin>
                   </>
@@ -341,7 +325,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">
-              <h3>구독 및 팔로우</h3>
+              <h3>{n('followLink')}</h3>
               <div className="flex items-center gap-x-3 my-4">
                 <button className="btn-outline rounded-md w-10 h-10 flex items-center justify-center transition-all ease-in-out duration-300">
                   <LiaFacebookF className="text-2xl" />

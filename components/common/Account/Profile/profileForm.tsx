@@ -1,7 +1,7 @@
 "use client";
 import { signUp } from "@/lib/auth";
 import { Select } from "@headlessui/react";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import router from "next/router";
 import React, { use, useEffect, useState } from "react";
 import PhoneInputWithCountrySelect from "react-phone-number-input";

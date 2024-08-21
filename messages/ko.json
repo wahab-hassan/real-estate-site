@@ -1,0 +1,54 @@
+{
+    "Navbar": {
+        "logo": "비앤비마켓",
+        "nav1": "집",
+        "nav2": "상장",
+        "nav3": "연락하다",
+        "loginBtn": "카카오톡으로 로그인",
+        "accountBtn": "계정",
+        "accountDDbtn": "계정",
+        "signoutBtn": "로그아웃",
+        "addListingBtn": "목록 추가",
+        "followLink": "구독 및 팔로우"
+    },
+    "Footer": {
+        "title": "비앤비마켓"
+    },
+    "HomePage": {
+        "mainTitle": "완벽한 휴가 기다리고 있습니다.",
+        "subTitle": "상장",
+        "listingTitle": "추천 목록",
+        "aboutSubTitle": "회사 소개",
+        "aboutTitle": "해외 AIRBNB 매물 제공 서비스입니다",
+        "aboutContent": "국내 에어비앤비, 외국인도시민박업, 그리고 단기임대 비즈니스에 대한 규제가 세지면서 해외적으로 보게 되었습니다. 일본, 베트남, 미국, 발리, 여러가지 국가에서 에어비앤비 가능한 매물 제공해드립니다.",
+        "aboutList1": "허락 받은 매물",
+        "aboutList2": "월세 / 연세",
+        "aboutList3": "공인중개사 직접 연락!",
+        "aboutBtn": "구경하기"
+    },
+    "ListingPage": {
+        "title": "속성",
+        "link1": "집",
+        "link2": "속성",
+        "filterTitle": "필터",
+        "filterbtn1": "모두 지우기",
+        "filterbtn2": "필터링된 옵션 표시",
+        "landSize": "토지 크기",
+        "ownerShip": "소유자 유형",
+        "bedroom": "침실",
+        "bathroom": "욕실",
+        "propertyType": "부동산 유형"
+    },
+    "ContactPage": {
+        "title": "문의하기",
+        "content": "무엇을 해야할지 모르시나요? 도움이 필요하면 알려주세요.",
+        "name": "이름",
+        "email": "이메일",
+        "phone": "전화 번호",
+        "message": "귀하의 메시지",
+        "contactBtn": "메시지 보내기",
+        "error": "모든 필드를 입력하십시오.",
+        "success": "귀하의 메시지가 성공적으로 제출되었습니다. 우리 에이전트가 곧 연락을 드릴 것입니다",
+        "error2": "메시지를 제출하는 동안 오류가 발생했습니다. 다시 시도해 주세요."
+    }
+}
