@@ -60,7 +60,7 @@ export default function Home() {
             <div className="flex flex-col mx-auto lg:flex-row-reverse lg:justify-between  lg:w-10/12 lg:gap-x-12 lg:my-20">
               <div className="flex items-center w-11/12 mx-auto lg:max-w-2xl ">
                 <img
-                  src="/about.jpg"
+                  src={'https://bttvroyktkjlseeiblwt.supabase.co/storage/v1/object/public/abnb/images/1722955856565_about.jpg'}
                   alt=""
                   className="w-full mx-auto my-auto shadow-lg shadow-dark/40"
                 />

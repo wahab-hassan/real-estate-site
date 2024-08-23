@@ -147,7 +147,7 @@ const Navbar = () => {
                     String(obj?.profile?.id),
                     obj?.profile?.kakao_account?.profile?.nickname
                   );
-                  router.push("/listing");
+                  router.push(`/account/${obj?.profile?.id}/properties`);
                   setisLoggedIn(true);
                 }}
                 onFail={console.error}
@@ -218,7 +218,7 @@ const Navbar = () => {
           <button
             className="btn btn-main  py-2  px-3  flex items-center"
             onClick={() => {
-              !isLoggedIn
+              isLoggedIn
                 ? router.push("/add-listing")
                 : alert("Please Login to add listing");
             }}
@@ -284,7 +284,7 @@ const Navbar = () => {
                 {isLoggedIn ? (
                   <>
                     <Link
-                      href={`/account/${user?.id}/properties`}
+                      href={ user && `/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
                       {n('accountDDbtn')}

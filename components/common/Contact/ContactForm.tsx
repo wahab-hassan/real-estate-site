@@ -6,9 +6,10 @@ import { toast, Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-phone-number-input/style.css";
 import { useTranslations } from "next-intl";
+import Swal from "sweetalert2";
 
 const ContactForm = () => {
-  const t = useTranslations('ContactPage')
+  const t = useTranslations("ContactPage");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,16 +21,9 @@ const ContactForm = () => {
 
     // Basic validation
     if (!name || !email || !phone || !message) {
-      toast.error(t('error'), {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
+      Swal.fire({
+        text: t("error"),
+        icon: "error",
       });
       return;
     }
@@ -38,21 +32,10 @@ const ContactForm = () => {
 
     try {
       await createRecord("messages", { name, email, phone, message });
-
-      toast.info(
-        t('success'),
-        {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        }
-      );
+      Swal.fire({
+        text: t("success"),
+        icon: "success",
+      });
 
       // Reset form after successful submission
       setName("");
@@ -60,20 +43,10 @@ const ContactForm = () => {
       setPhone("");
       setMessage("");
     } catch (error) {
-      toast.error(
-        t('error2'),
-        {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        }
-      );
+      Swal.fire({
+        text: t("error2"),
+        icon: "error",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -86,7 +59,7 @@ const ContactForm = () => {
           htmlFor="name"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          {t('name')}
+          {t("name")}
         </label>
         <input
           type="text"
@@ -94,7 +67,7 @@ const ContactForm = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="shadow-sm  border border-border/40  text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-          placeholder={t('name')}
+          placeholder={t("name")}
           required
         />
       </div>
@@ -103,7 +76,7 @@ const ContactForm = () => {
           htmlFor="email"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          {t('email')}
+          {t("email")}
         </label>
         <input
           type="email"
@@ -120,7 +93,7 @@ const ContactForm = () => {
           htmlFor="subject"
           className="block mb-2 text-sm font-medium  dark:text-gray-300"
         >
-          {t('phone')}
+          {t("phone")}
         </label>
         <PhoneInputWithCountrySelect
           id="subject"
@@ -136,7 +109,7 @@ const ContactForm = () => {
           htmlFor="message"
           className="block mb-2 text-sm font-medium  dark:text-gray-400"
         >
-          {t('message')}
+          {t("message")}
         </label>
         <textarea
           id="message"
@@ -152,7 +125,7 @@ const ContactForm = () => {
         className="btn btn-secondary w-full"
         disabled={isSubmitting}
       >
-        {isSubmitting ? "제출 중..." : t('contactBtn')}
+        {isSubmitting ? "제출 중..." : t("contactBtn")}
       </button>
       <ToastContainer />
     </form>

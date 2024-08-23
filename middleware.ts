@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export default function middleware(request: NextRequest) {
   // Define the locales and default locale
   const locales = ["en", "ko"];
-  const defaultLocale = "en";
+  const defaultLocale = "ko";
 
   // Check if the URL starts with one of the locales
   const pathname = request.nextUrl.pathname;

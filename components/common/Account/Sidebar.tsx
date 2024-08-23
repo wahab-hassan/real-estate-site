@@ -4,7 +4,7 @@ import { Link } from "@/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsChevronRight } from "react-icons/bs";
-import { HiHeart, HiUsers } from "react-icons/hi";
+import { HiHeart, HiOutlineHome, HiUsers } from "react-icons/hi";
 import { HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
 
@@ -27,11 +27,24 @@ const Sidebar = ({ openSidebar }: any) => {
               <h1>
                 ABNB <span className="text-third text-5xl -ml-2">.</span>
               </h1>
-              <button className=" btn btn-outline rounded-full p-3 block md:hidden" onClick={openSidebar}>
+              <button
+                className=" btn btn-outline rounded-full p-3 block md:hidden"
+                onClick={openSidebar}
+              >
                 <MdClose />
               </button>
             </div>
             <div className="block mt-8 mb-12">
+              <Link
+                href={`/listing`}
+                className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
+              >
+                <span className="flex items-center gap-x-2">
+                  <HiOutlineHome />
+                  Listing
+                </span>
+                <BsChevronRight />
+              </Link>
               <Link
                 href={`/account/${user?.id}/properties`}
                 className="cursor-pointer text-md px-2 py-3  border-b-[1px] border-border/30 hover:bg-dark/5 hover:font-medium flex justify-between"
