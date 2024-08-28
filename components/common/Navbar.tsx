@@ -143,12 +143,16 @@ const Navbar = () => {
                 className="bg-main text-white px-4 py-2 rounded-md hover:opacity-60 transition-all ease-in-out duration-300"
                 token={"f171b4cd5cc94c5c30907bbe6ab41b48"}
                 onSuccess={(obj: any) => {
-                  signIn(
-                    String(obj?.profile?.id),
-                    obj?.profile?.kakao_account?.profile?.nickname
-                  );
-                  router.push(`/account/${obj?.profile?.id}/properties`);
-                  setisLoggedIn(true);
+                  if (obj) {
+                    signIn(
+                      String(obj?.profile?.id),
+                      obj?.profile?.kakao_account?.profile?.nickname
+                    ).then((value: any) => {
+                      console.log(value);
+                      setisLoggedIn(true);
+                      window.location.reload();
+                    });
+                  }
                 }}
                 onFail={console.error}
                 onLogout={console.info}
@@ -279,15 +283,15 @@ const Navbar = () => {
             </div>
 
             <div className="my-8 border-b-[1px] border-border/80">
-              <h3>{n('accountBtn')}</h3>
+              <h3>{n("accountBtn")}</h3>
               <div className="flex items-center gap-x-3 my-4">
                 {isLoggedIn ? (
                   <>
                     <Link
-                      href={ user && `/account/${user?.id}/properties`}
+                      href={user && `/account/${user?.id}/properties`}
                       className="btn btn-outline"
                     >
-                      {n('accountDDbtn')}
+                      {n("accountDDbtn")}
                     </Link>
                     <button
                       className="btn btn-outline"
@@ -297,7 +301,7 @@ const Navbar = () => {
                         localStorage.setItem("isLoggedIn", "false");
                       }}
                     >
-                      {n('signoutBtn')}
+                      {n("signoutBtn")}
                     </button>
                   </>
                 ) : (
@@ -317,7 +321,7 @@ const Navbar = () => {
                     >
                       <div className="flex items-center justify-center text-center w-full font-medium">
                         {" "}
-                        <BsChat className="text-lg mr-2" /> {n('loginBtn')}
+                        <BsChat className="text-lg mr-2" /> {n("loginBtn")}
                       </div>
                     </KakaoLogin>
                   </>
@@ -325,7 +329,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="mt-8 border-b-[1px] border-border/80">
-              <h3>{n('followLink')}</h3>
+              <h3>{n("followLink")}</h3>
               <div className="flex items-center gap-x-3 my-4">
                 <button className="btn-outline rounded-md w-10 h-10 flex items-center justify-center transition-all ease-in-out duration-300">
                   <LiaFacebookF className="text-2xl" />

@@ -28,7 +28,6 @@ export async function signUp(
 }
 
 export async function signIn(userId: any, userName: any) {
-
   // Check if user with the given ID exists
   const data: any = await supabase
     .from("users")
@@ -36,13 +35,7 @@ export async function signIn(userId: any, userName: any) {
     .eq("id", userId)
     .single();
 
-  if (data.error) {
-    // Error code for no rows found
-    throw data.error;
-  }
-
-
-  if (!data.data) {
+  if (data.data === (null || {})) {
     // User does not exist, insert the new user
     const { data: newUser, error: insertError } = await supabase
       .from("users")
@@ -54,6 +47,7 @@ export async function signIn(userId: any, userName: any) {
         },
       ])
       .single();
+console.log(data, insertError);
 
     if (insertError) throw insertError;
 
@@ -124,6 +118,8 @@ export async function signOut() {
 
 export function handleKakaoLogout() {
   window.Kakao.Auth.logout((err: any) => {
+    console.log(err);
+    
     localStorage.removeItem("userData");
     localStorage.removeItem("adminData");
     localStorage.setItem("isLoggedIn", "false");
